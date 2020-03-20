@@ -7,6 +7,8 @@ from .util.Database import db
 from .config import configs
 
 from src.main.api.controller.UserController import UserList, User
+from src.main.api.controller.DailyReportController import DailyReport, TrendGraph
+
 
 flask_bcrypt = Bcrypt()
 
@@ -28,6 +30,9 @@ def create_app(config_name):
     api = Api(doc='/doc')
     api.add_resource(UserList, '/api/users/')
     api.add_resource(User, '/api/users/<email>/')
+
+    api.add_resource(DailyReport, '/api/reports/<date>/')
+    api.add_resource(DailyReport, '/api/reports/')
 
     db.init_app(app)
     api.init_app(app)
