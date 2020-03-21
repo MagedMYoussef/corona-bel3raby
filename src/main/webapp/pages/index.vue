@@ -8,6 +8,15 @@
         </a>
         كورونا بالعربي
       </div>
+
+      <div class="country-filter">
+        <a @click="fillData()" href="#" class="active">العالم</a>
+        <a @click="fillData()" href="#">مصر</a>
+        <a @click="fillData()" href="#">أفريقيا</a>
+        <a @click="fillData()" href="#">الدول العربية</a>
+      </div>
+
+
       <div class="links">
         <a href="#">أخبار</a>
         <a href="#">شائعات</a>
@@ -18,13 +27,7 @@
 
     <div class="main">
 
-      <div class="country-filter">
-        <a @click="fillData()" href="#" class="active">العالم</a>
-        <a @click="fillData()" href="#">مصر</a>
-        <a @click="fillData()" href="#">أفريقيا</a>
-        <a @click="fillData()" href="#">الدول العربية</a>
-      </div>
-
+      <div class="row">
       <div class="card">
         <div class="card-title">
           معدل الحالات
@@ -42,11 +45,13 @@
             <chart class="chart" :chart-data="datacollection" :options="options"></chart>
         </div>
       </div>
+      </div>
+
 
       <div class="row">
               <div class="card">
         <div class="card-title">
-          معدل الحالات
+          أكثر الدول في الحالات
         </div>
         <div class="card-content">
             <chart class="chart" :chart-data="datacollection" :options="options"></chart>
@@ -55,7 +60,7 @@
 
       <div class="card">
         <div class="card-title">
-          معدل الوفيات
+          أكثر الدول في الوفيات
         </div>
         <div class="card-content">
             <chart class="chart" :chart-data="datacollection" :options="options"></chart>
@@ -82,7 +87,107 @@
     </div>
 
     <div class="sidebar">
-      Hello
+
+        <div class="card-2">
+        <div class="card-2-content">
+          <h1>اجمالي الحالات <br/>
+            <span style="color: #03a9f4;">180,000</span>
+          </h1>
+          <table>
+            <tr>
+              <th>مصر</th>
+              <th>أفريقيا</th>
+              <th>العرب</th>
+            </tr>
+            <tr>
+              <td>290</td>
+              <td>1200</td>
+              <td>5000</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+        <div class="card-2">
+        <div class="card-2-content">
+          <h1>اجمالي المتعافين <br/>
+            <span style="color: #42d885;">50,000</span>
+          </h1>
+          <table>
+            <tr>
+              <th>مصر</th>
+              <th>أفريقيا</th>
+              <th>العرب</th>
+            </tr>
+            <tr>
+              <td>290</td>
+              <td>1200</td>
+              <td>5000</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+        <div class="card-2">
+        <div class="card-2-content">
+          <h1>اجمالي الوفيات <br/>
+            <span style="color: #ff5b93;">10,000</span>
+          </h1>
+          <table>
+            <tr>
+              <th>مصر</th>
+              <th>أفريقيا</th>
+              <th>العرب</th>
+            </tr>
+            <tr>
+              <td>290</td>
+              <td>1200</td>
+              <td>5000</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+ <div class="card-2">
+        <div class="card-2-content">
+          <h1>الحالات الجديدة <br/>
+            <span style="color: #ff5b93;">10,000</span>
+          </h1>
+          <table>
+            <tr>
+              <th>مصر</th>
+              <th>أفريقيا</th>
+              <th>العرب</th>
+            </tr>
+            <tr>
+              <td>290</td>
+              <td>1200</td>
+              <td>5000</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+       <div class="card-2">
+        <div class="card-2-content">
+          <h1>الوفيات الجديدة <br/>
+            <span style="color: #ff5b93;">10,000</span>
+          </h1>
+          <table>
+            <tr>
+              <th>مصر</th>
+              <th>أفريقيا</th>
+              <th>العرب</th>
+            </tr>
+            <tr>
+              <td>290</td>
+              <td>1200</td>
+              <td>5000</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -104,7 +209,27 @@ export default {
       datacollection: null,
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: 'label'
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: true,
+              color: '#58585860'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            gridLines: {
+              display: true,
+              color: '#58585860'
+            }
+          }]
+        }
+
       }
     }
   },
@@ -115,16 +240,30 @@ export default {
     fillData () {
       console.log('fillData');
       this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt()],
+        labels: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()],
         datasets: [
           {
             label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [this.getRandomInt(), this.getRandomInt()]
+            borderColor: '#1e88e5',
+            fill: false,
+            pointBorderColor: "#1e88e5",
+            pointBackgroundColor: "#1e88e5",
+            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
           }, {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [this.getRandomInt(), this.getRandomInt()]
+            label: 'Data Two',
+            borderColor: '#ffc107',
+            fill: false,
+            pointBorderColor: "#ffc107",
+            pointBackgroundColor: "#ffc107",
+            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+          },
+          {
+            label: 'Data Three',
+            borderColor: '#db4437',
+            fill: false,
+            pointBorderColor: "#db4437",
+            pointBackgroundColor: "#db4437",
+            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
           }
         ]
       }
@@ -137,9 +276,9 @@ export default {
 }
 </script>
 
-<style c>
+<style lang="scss">
 
-@import url('https://fonts.googleapis.com/css?family=Almarai|El+Messiri|Tajawal&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Almarai|El+Messiri|Cairo|Tajawal&display=swap');
 
 .container {
   font-family: 'El Messiri', sans-serif;
@@ -159,6 +298,7 @@ export default {
     width: 80vw;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 1rem;
     font-size: 1rem;
     background: #202124;
@@ -166,6 +306,7 @@ export default {
 }
 
 .logo {
+  font-family: 'Cairo', sans-serif;
   color: #FFC023;
   font-size: 1.5rem;
 }
@@ -173,10 +314,6 @@ export default {
 .logo img {
   width: 3rem;
   display: inline-block;
-}
-
-.links {
-  margin-top: 1rem;
 }
 
 .links a {
@@ -198,10 +335,9 @@ export default {
 .main {
   padding-top: 6rem;
   width: 80vw;
-}
-
-.country-filter {
-  margin-bottom: 2rem;
+  height: 100vh;
+  overflow: scroll;
+  direction: ltr;
 }
 
 .country-filter a {
@@ -254,5 +390,47 @@ export default {
 .row div {
   flex: 1;
 }
+
+
+.card-2-title {
+  position: relative;
+  display: inline-block;
+  font-size: 1.5rem;
+}
+
+.card-2-content {
+  margin: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  background: #22242d;
+  padding: 0.5rem 0;
+}
+
+table {
+  background: #13151b;
+  width: 80%;
+  border-radius: 6px;
+  margin: 1rem auto;
+
+  th {
+      color: #FFC023;
+      padding: 0.5rem;
+
+    }
+  td {
+    color: rgb(131, 131, 131);
+
+  }
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: #9eabd4;
+
+  span {
+    font-size: 2rem;
+  }
+}
+
 
 </style>
