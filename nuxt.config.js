@@ -2,7 +2,7 @@
 export default {
   srcDir: 'src/main/webapp',
   buildDir: 'build',
-  mode: 'universal',
+  mode: 'spa',
   /*
   ** Headers of the page
   */
@@ -30,6 +30,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+
   ],
   /*
   ** Nuxt.js dev-modules
