@@ -17,7 +17,7 @@ def get_report(report_date):
         reports = db.session.query(LatestReport).order_by(LatestReport.report_date).all()
     else:
         reports = db.session.query(DailyReport).filter_by(report_date=report_date).all()
-    return list(map(lambda report: report.serialize(), reports))
+    return list(map(lambda report: {**report.serialize(), **CountryMap.get(report.country, {})}, reports))
 
 
 def add_report(data):
@@ -62,6 +62,9 @@ def add_report(data):
         e = commit(db)
         if e:
             return e
+
+        # TODO: Group by countries
+        # TODO: Count the 'new' numbers
 
         # insert the data
         latest_reports = []
@@ -110,17 +113,17 @@ def get_trends():
 
         country = get_country_info(report["country"])
 
-        if country["country"] == "Egypt":
+        if country.get("country", None) == "Egypt":
             for key in keys:
                 if report["report_date"] not in summary[key]["egypt"]:
                     summary[key]["egypt"][report["report_date"]] = 0
                 summary[key]["egypt"][report["report_date"]] += int(report[key])
-        if country["continent"] == "Africa":
+        if country.get("continent", None) == "Africa":
             for key in keys:
                 if report["report_date"] not in summary[key]["africa"]:
                     summary[key]["africa"][report["report_date"]] = 0
                 summary[key]["africa"][report["report_date"]] += int(report[key])
-        if country["arab"]:
+        if country.get("arab", None):
             for key in keys:
                 if report["report_date"] not in summary[key]["arab"]:
                     summary[key]["arab"][report["report_date"]] = 0
@@ -153,13 +156,13 @@ def get_stats():
 
         country = get_country_info(report["country"])
 
-        if country["country"] == "Egypt":
+        if country.get("country", None) == "Egypt":
             for key in keys:
                 summary[key]["egypt"] += int(report[key])
-        if country["continent"] == "Africa":
+        if country.get("continent", None) == "Africa":
             for key in keys:
                 summary[key]["africa"] += int(report[key])
-        if country["arab"]:
+        if country.get("arab", None):
             for key in keys:
                 summary[key]["arab"] += int(report[key])
 
@@ -180,4 +183,4 @@ def get_country_info(country):
     if country == "Taiwan*":
         country = "Taiwan"
 
-    return CountryMap[country]
+    return CountryMap.get(country, {})
