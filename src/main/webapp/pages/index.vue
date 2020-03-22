@@ -98,12 +98,13 @@
 
     </div>
 
-    <div class="sidebar">
+    <div class="sidebar" v-if="stats">
+
       <div class="card-2">
         <div class="card-2-content">
           <h1>
             اجمالي الحالات <br />
-            <span style="color: #03a9f4;">180,000</span>
+            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide }}</span>
           </h1>
           <table>
             <tr>
@@ -112,9 +113,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>290</td>
-              <td>1200</td>
-              <td>5000</td>
+              <td>{{ stats.total_confirmed.egypt }}</td>
+              <td>{{ stats.total_confirmed.africa }}</td>
+              <td>{{ stats.total_confirmed.arab }}</td>
             </tr>
           </table>
         </div>
@@ -124,7 +125,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي المتعافين <br />
-            <span style="color: #42d885;">50,000</span>
+            <span style="color: #42d885;">{{ stats.total_recovered.worldwide }}</span>
           </h1>
           <table>
             <tr>
@@ -133,9 +134,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>290</td>
-              <td>1200</td>
-              <td>5000</td>
+              <td>{{ stats.total_recovered.egypt }}</td>
+              <td>{{ stats.total_recovered.africa }}</td>
+              <td>{{ stats.total_recovered.arab }}</td>
             </tr>
           </table>
         </div>
@@ -145,7 +146,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي الوفيات <br />
-            <span style="color: #ff5b93;">10,000</span>
+            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide }}</span>
           </h1>
           <table>
             <tr>
@@ -154,9 +155,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>290</td>
-              <td>1200</td>
-              <td>5000</td>
+              <td>{{ stats.total_deaths.egypt }}</td>
+              <td>{{ stats.total_deaths.africa }}</td>
+              <td>{{ stats.total_deaths.arab }}</td>
             </tr>
           </table>
         </div>
@@ -166,7 +167,7 @@
         <div class="card-2-content">
           <h1>
             الحالات الجديدة <br />
-            <span style="color: #ff5b93;">10,000</span>
+            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide }}</span>
           </h1>
           <table>
             <tr>
@@ -175,9 +176,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>290</td>
-              <td>1200</td>
-              <td>5000</td>
+              <td>{{ stats.new_confirmed.egypt }}</td>
+              <td>{{ stats.new_confirmed.africa }}</td>
+              <td>{{ stats.new_confirmed.arab }}</td>
             </tr>
           </table>
         </div>
@@ -187,7 +188,7 @@
         <div class="card-2-content">
           <h1>
             الوفيات الجديدة <br />
-            <span style="color: #ff5b93;">10,000</span>
+            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide }}</span>
           </h1>
           <table>
             <tr>
@@ -196,9 +197,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>290</td>
-              <td>1200</td>
-              <td>5000</td>
+              <td>{{ stats.new_deaths.egypt }}</td>
+              <td>{{ stats.new_deaths.africa }}</td>
+              <td>{{ stats.new_deaths.arab }}</td>
             </tr>
           </table>
         </div>
@@ -208,6 +209,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import Chart from "~/components/Chart.vue";
 import Grid from "~/components/Grid.vue";
 import NewsBar from "~/components/NewsBar.vue";
@@ -220,6 +223,7 @@ export default {
   },
   data() {
     return {
+      stats: null,
       datacollection: null,
       options: {
         responsive: true,
@@ -253,8 +257,16 @@ export default {
   },
   mounted() {
     this.fillData();
+    this.getData();
   },
   methods: {
+    getData() {
+      const { res } = this.$axios.get(`/api/stats/`)
+        .then(res => {
+            console.log('statssss', res);
+            this.stats = res.data;
+        });
+    },
     fillData() {
       console.log("fillData");
       this.datacollection = {
@@ -435,7 +447,7 @@ export default {
 
 .chart {
   position: relative;
-  max-height: 15rem;
+  max-height: 13.5rem;
   margin: 10px;
 }
 

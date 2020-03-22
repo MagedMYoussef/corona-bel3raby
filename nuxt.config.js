@@ -54,6 +54,12 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    proxy: true
+  },
+
+  // Proxy configuration
+  proxy: {
+    '/api': 'http://localhost:5000'
   },
   /*
   ** Build configuration
