@@ -14,7 +14,7 @@ def get_all_reports():
 
 def get_report(report_date):
     if (report_date == "latest"):
-        reports = db.session.query(LatestReport).all()
+        reports = db.session.query(LatestReport).order_by(LatestReport.report_date).all()
     else:
         reports = db.session.query(DailyReport).filter_by(report_date=report_date).all()
     return list(map(lambda report: report.serialize(), reports))
@@ -90,7 +90,7 @@ def add_report(data):
 
 def get_trends():
     # get the latest reports
-    latest_reports = db.session.query(DailyReport).all()
+    latest_reports = db.session.query(DailyReport).order_by(DailyReport.report_date).all()
     summary = {
         "confirmed": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}},
         "deaths": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}},
@@ -104,19 +104,27 @@ def get_trends():
         report = report.serialize()
 
         for key in keys:
-            summary[key]["worldwide"][report["report_date"]] = int(report[key])
+            if report["report_date"] not in summary[key]["worldwide"]:
+                summary[key]["worldwide"][report["report_date"]] = 0
+            summary[key]["worldwide"][report["report_date"]] += int(report[key])
 
         country = get_country_info(report["country"])
 
         if country["country"] == "Egypt":
             for key in keys:
-                summary[key]["egypt"][report["report_date"]] = int(report[key])
+                if report["report_date"] not in summary[key]["egypt"]:
+                    summary[key]["egypt"][report["report_date"]] = 0
+                summary[key]["egypt"][report["report_date"]] += int(report[key])
         if country["continent"] == "Africa":
             for key in keys:
-                summary[key]["africa"][report["report_date"]] = int(report[key])
+                if report["report_date"] not in summary[key]["africa"]:
+                    summary[key]["africa"][report["report_date"]] = 0
+                summary[key]["africa"][report["report_date"]] += int(report[key])
         if country["arab"]:
             for key in keys:
-                summary[key]["arab"][report["report_date"]] = int(report[key])
+                if report["report_date"] not in summary[key]["arab"]:
+                    summary[key]["arab"][report["report_date"]] = 0
+                summary[key]["arab"][report["report_date"]] += int(report[key])
 
     return summary
 
@@ -124,7 +132,7 @@ def get_trends():
 def get_stats():
 
     # get the latest reports
-    latest_reports = db.session.query(LatestReport).all()
+    latest_reports = db.session.query(LatestReport).order_by(LatestReport.report_date).all()
     summary = {
         "total_confirmed": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
         "total_deaths": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
