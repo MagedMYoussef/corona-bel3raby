@@ -19,5 +19,8 @@ class LatestReport(db.Model):
     death_rate = db.Column(db.Float())
     increase_rate = db.Column(db.Float())
 
+    continent = db.Column(db.String(100))
+    arab = db.Column(db.Boolean())
+
     def serialize(self):
         return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}

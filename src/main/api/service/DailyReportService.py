@@ -89,3 +89,39 @@ def add_report(data):
 
 def get_trends():
     pass
+
+
+def get_stats():
+
+    # get the latest reports
+    latest_reports = db.session.query(LatestReport).all()
+    summary = {
+        "total_confirmed": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
+        "total_deaths": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
+        "total_recovered": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
+        "new_confirmed": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
+        "new_deaths": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
+        "new_recovered": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0}
+    }
+
+    # fill the summary
+    keys = ["total_confirmed", "total_deaths", "total_recovered", "new_confirmed", "new_deaths", "new_recovered"]
+    for report in latest_reports:
+
+        report = report.serialize()
+
+        if report["country"] == "Egypt":
+            identifier = "egypt"
+        elif report["continent"] == "Africa":
+            identifier = "africa"
+        elif report["arab"] is True:
+            identifier = "arab"
+        else:
+            identifier = None
+
+        for key in keys:
+            summary[key]["worldwide"] += int(report[key])
+            if identifier:
+                summary[key][identifier] += int(report[key])
+
+    return summary

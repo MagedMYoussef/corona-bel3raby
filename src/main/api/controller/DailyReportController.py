@@ -1,7 +1,7 @@
 from flask import request
 from flask_restplus import Resource
 
-from ..service.DailyReportService import get_report, get_trends, add_report, get_all_reports
+from ..service.DailyReportService import get_report, get_trends, add_report, get_all_reports, get_stats
 
 
 class DailyReport(Resource):
@@ -26,3 +26,9 @@ class TrendGraph(Resource):
         trends = get_trends()
         return trends
 
+
+class Stats(Resource):
+    def get(self):
+        """Get overall stats to be used in the sidebar"""
+        stats = get_stats()
+        return stats
