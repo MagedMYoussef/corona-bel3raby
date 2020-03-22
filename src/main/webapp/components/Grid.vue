@@ -1,6 +1,6 @@
 <template>
 <div>
-  <ag-grid-vue style="height: 25rem; margin: 1rem;"
+  <ag-grid-vue style="height: 33rem; margin: 1rem;"
         class="ag-theme-balham-dark"
         :columnDefs="columnDefs"
         :rowData="rowData"
@@ -46,6 +46,7 @@ export default {
       enableRtl: true,
       floatingFilter: true,
     };
+
     this.defaultColDef = { resizable: true, sortable: true, filter: 'agNumberColumnFilter' };
     this.columnDefs = [
       {
@@ -97,6 +98,15 @@ export default {
       },
       {
         country: 'العراق', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'سوريا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'البرازيل', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'فلسطين', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
       },
     ];
   },

@@ -55,7 +55,10 @@
       </div>
 
       <div class="row">
-        <div class="card">
+
+
+      <div>
+          <div class="card">
           <div class="card-title">
             أكثر الدول في الحالات
           </div>
@@ -68,7 +71,7 @@
           </div>
         </div>
 
-        <div class="card">
+<div class="card">
           <div class="card-title">
             أكثر الدول في الوفيات
           </div>
@@ -80,21 +83,9 @@
             ></chart>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title">
-            معدل الوفيات
-          </div>
-          <div class="card-content">
-            <chart
-              class="chart"
-              :chart-data="datacollection"
-              :options="options"
-            ></chart>
-          </div>
-        </div>
       </div>
 
-      <div class="card">
+      <div class="card table">
         <div class="card-title">
           احصائيات الدول
         </div>
@@ -102,6 +93,9 @@
           <Grid></Grid>
         </div>
       </div>
+      </div>
+
+
     </div>
 
     <div class="sidebar">
@@ -450,8 +444,12 @@ export default {
   justify-content: space-between;
 }
 
-.row div {
+.row div.card {
   flex: 1;
+}
+
+.row div.card.table {
+  flex: 2;
 }
 
 .card-2-title {
