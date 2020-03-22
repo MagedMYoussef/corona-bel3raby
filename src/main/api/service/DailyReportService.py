@@ -1,7 +1,8 @@
 from src.main.api.model.DailyReport import DailyReport
+from src.main.api.model.LatestReport import LatestReport
 from src.main.api.util.Database import batch_save
 
-from src.main.api.util.Database import db
+from src.main.api.util.Database import db, commit
 import datetime
 
 
@@ -11,8 +12,10 @@ def get_all_reports():
 
 
 def get_report(report_date):
-    print(report_date)
-    reports = db.session.query(DailyReport).filter_by(report_date=report_date).all()
+    if (report_date == "latest"):
+        reports = db.session.query(LatestReport).all()
+    else:
+        reports = db.session.query(DailyReport).filter_by(report_date=report_date).all()
     return list(map(lambda report: report.serialize(), reports))
 
 
@@ -23,7 +26,7 @@ def add_report(data):
 
     # validate report_date
     try:
-        datetime.datetime.strptime(data['report_date'], '%Y-%m-%d')
+        report_date = datetime.datetime.strptime(data['report_date'], '%Y-%m-%d')
     except ValueError:
         return "Incorrect report_date format, should be YYYY-MM-DD", 400
 
@@ -37,7 +40,7 @@ def add_report(data):
         new_report = DailyReport(
             province=country['Province/State'],
             country=country['Country/Region'],
-            report_date=datetime.datetime.strptime(data['report_date'], '%Y-%m-%d'),
+            report_date=report_date,
             confirmed=country['Confirmed'],
             deaths=country['Deaths'],
             recovered=country['Recovered']
@@ -47,6 +50,39 @@ def add_report(data):
     e = batch_save(db, new_reports)
     if e:
         return "An error happened while adding the report {}.".format(e), 500
+
+    # update the latest report
+    # get the latest report date to be used for updating the latest report if necessary
+    latest_report = db.session.query(LatestReport).first()
+
+    if not latest_report or (latest_report and report_date.date() > latest_report.report_date):
+
+        db.session.query(LatestReport).delete()
+        e = commit(db)
+        if e:
+            return e
+
+        # insert the data
+        latest_reports = []
+        for country in country_report:
+            new_report = LatestReport(
+                province=country['Province/State'],
+                country=country['Country/Region'],
+                report_date=report_date,
+                total_confirmed=country['Confirmed'],
+                total_deaths=country['Deaths'],
+                total_recovered=country['Recovered'],
+                active=10,
+                new_confirmed=10,
+                new_deaths=10,
+                new_recovered=10,
+                death_rate=10,
+                increase_rate=10
+            )
+            latest_reports.append(new_report)
+        e = batch_save(db, latest_reports)
+        if e:
+            return "An error happened while updating the latest report {}.".format(e), 500
 
     return "Report has been added successfully!", 201
 

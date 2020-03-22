@@ -34,8 +34,12 @@ for report_name in reports:
     data = read_csv(report_location)
 
     # report date
-    month, day, year = report_name.split('.')[0].split('-')
-    report_date = "{}-{}-{}".format(year, month, day)
+    try:
+        month, day, year = report_name.split('.')[0].split('-')
+        report_date = "{}-{}-{}".format(year, month, day)
+    except:
+        print("Cannot parse the report date {}.".format(report_name))
+        continue
 
     body = {
         "report_date": report_date,
