@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <!-- <news-bar :newNews="'China: 43, USA: 9199'"></news-bar> -->
 
     <div class="header">
       <div class="logo">
@@ -32,11 +31,7 @@
             معدل الحالات
           </div>
           <div class="card-content">
-            <chart
-              class="chart"
-              :chart-data="datacollection"
-              :options="options"
-            ></chart>
+            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
           </div>
         </div>
 
@@ -45,56 +40,42 @@
             معدل الوفيات
           </div>
           <div class="card-content">
-            <chart
-              class="chart"
-              :chart-data="datacollection"
-              :options="options"
-            ></chart>
+            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
           </div>
         </div>
       </div>
 
       <div class="row">
 
-
-      <div>
+        <div>
           <div class="card">
+            <div class="card-title">
+              أكثر الدول في الحالات
+            </div>
+            <div class="card-content">
+              <chart class="chart" :chart-data="datacollection" :options="options"></chart>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              أكثر الدول في الوفيات
+            </div>
+            <div class="card-content">
+              <chart class="chart" :chart-data="datacollection" :options="options"></chart>
+            </div>
+          </div>
+        </div>
+
+        <div class="card table">
           <div class="card-title">
-            أكثر الدول في الحالات
+            احصائيات الدول
           </div>
           <div class="card-content">
-            <chart
-              class="chart"
-              :chart-data="datacollection"
-              :options="options"
-            ></chart>
-          </div>
-        </div>
-
-<div class="card">
-          <div class="card-title">
-            أكثر الدول في الوفيات
-          </div>
-          <div class="card-content">
-            <chart
-              class="chart"
-              :chart-data="datacollection"
-              :options="options"
-            ></chart>
+            <Grid :data="countriesData"></Grid>
           </div>
         </div>
       </div>
-
-      <div class="card table" v-if="countriesData">
-        <div class="card-title">
-          احصائيات الدول
-        </div>
-        <div class="card-content">
-          <Grid :data="countriesData"></Grid>
-        </div>
-      </div>
-      </div>
-
 
     </div>
 
@@ -209,15 +190,13 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 import Chart from "~/components/Chart.vue";
 import Grid from "~/components/Grid.vue";
-import NewsBar from "~/components/NewsBar.vue";
 
 export default {
   components: {
-    "news-bar": NewsBar,
     Chart,
     Grid
   },
@@ -225,6 +204,7 @@ export default {
     return {
       stats: null,
       countriesData: null,
+      newsbarData: null,
       datacollection: null,
       options: {
         responsive: true,
@@ -262,19 +242,26 @@ export default {
   },
   methods: {
     getData() {
-      axios
-        .get('/api/stats/')
-        .then(res => {
-          console.log('statssss', res);
-          this.stats = res.data;
-        });
+      axios.get("/api/stats/").then(res => {
+        console.log("statssss", res);
+        this.stats = res.data;
+      });
 
-      axios
-        .get('/api/reports/latest/')
-        .then(res => {
-          console.log('report latest', res);
-          this.countriesData = res.data;
-        });
+      axios.get("/api/reports/latest/").then(res => {
+        console.log("report latest", res);
+        this.countriesData = res.data;
+
+        // TODO: Replace it with new_confirmed
+        this.newsbarData = "";
+        res.data
+          .sort((a, b) => b.total_confirmed - a.total_confirmed)
+          .slice(0, 25)
+          .forEach(e => {
+            this.newsbarData += `<div class="ticker__item">${e.emoji} ${e.country_arabic} ${e.total_confirmed} (+${e.new_confirmed})</div>`;
+          });
+        console.log('newsbar', this.newsbarData)
+      });
+
     },
     fillData() {
       console.log("fillData");
