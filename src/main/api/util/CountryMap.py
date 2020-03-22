@@ -403,6 +403,12 @@ CountryMap = {
     "continent": "Europe",
     "arab": False
   },
+  "Czechia": {
+    "country": "Czech Republic",
+    "country_arabic": "جمهورية التشيك",
+    "continent": "Europe",
+    "arab": False
+  },
   "Denmark": {
     "country": "Denmark",
     "country_arabic": "الدنمارك",
@@ -540,6 +546,13 @@ CountryMap = {
     "emoji": "🇫🇮"
   },
   "France": {
+    "country": "France",
+    "country_arabic": "فرنسا",
+    "continent": "Europe",
+    "arab": False,
+    "emoji": "🇫🇷"
+  },
+  "Saint Barthelemy": {
     "country": "France",
     "country_arabic": "فرنسا",
     "continent": "Europe",
@@ -711,6 +724,13 @@ CountryMap = {
     "arab": False
   },
   "Vatican City": {
+    "country": "Vatican City",
+    "country_arabic": "دولة الفاتيكان",
+    "continent": "Europe",
+    "arab": False,
+    "emoji": "🇻🇦"
+  },
+  "Holy See": {
     "country": "Vatican City",
     "country_arabic": "دولة الفاتيكان",
     "continent": "Europe",
@@ -1518,7 +1538,21 @@ CountryMap = {
     "arab": False,
     "emoji": "🇰🇷"
   },
+  "Korea, South": {
+    "country": "South Korea",
+    "country_arabic": "كوريا الجنوبية",
+    "continent": "Asia",
+    "arab": False,
+    "emoji": "🇰🇷"
+  },
   "Taiwan": {
+    "country": "Taiwan",
+    "country_arabic": "تايوان",
+    "continent": "Asia",
+    "arab": False,
+    "emoji": "🇹🇼"
+  },
+  "Taiwan*": {
     "country": "Taiwan",
     "country_arabic": "تايوان",
     "continent": "Asia",
@@ -1738,7 +1772,14 @@ CountryMap = {
   },
   "United States": {
     "country": "United States",
-    "country_arabic": "الولايات المتحدة الأمريكية",
+    "country_arabic": "أمريكا",
+    "continent": "North America",
+    "arab": False,
+    "emoji": "🇺🇸"
+  },
+  "US": {
+    "country": "United States",
+    "country_arabic": "أمريكا",
     "continent": "North America",
     "arab": False,
     "emoji": "🇺🇸"
@@ -1847,6 +1888,30 @@ CountryMap = {
     "continent": "Africa",
     "arab": False,
     "emoji": "🇿🇼"
+  },
+  "Cruise Ship": {
+    "country": "Others",
+    "country_arabic": "Others",
+    "continent": "Others",
+    "arab": False
+  },
+  "St. Martin": {
+    "country": "Others",
+    "country_arabic": "Others",
+    "continent": "Others",
+    "arab": False
+  },
+  "Saint Martin": {
+    "country": "Others",
+    "country_arabic": "Others",
+    "continent": "Others",
+    "arab": False
+  },
+  "Channel Islands": {
+    "country": "Others",
+    "country_arabic": "Others",
+    "continent": "Others",
+    "arab": False
   },
   "Others": {
     "country": "Others",

@@ -1,9 +1,9 @@
 <template>
 <div>
-  <ag-grid-vue style="height: 33rem; margin: 1rem;"
+  <ag-grid-vue style="height: 30rem; margin: 1rem;"
         class="ag-theme-balham-dark"
         :columnDefs="columnDefs"
-        :rowData="rowData"
+        :rowData="data"
         :gridOptions="gridOptions"
         :defaultColDef="defaultColDef">
     </ag-grid-vue>
@@ -26,7 +26,23 @@ function newDeathsCellRenderer(params) {
   return `<span style="background: #db4437; color: #fff; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
 }
 
+function countryCellRenderer(params) {
+
+    if (params.data.emoji) {
+        return `<span style="font-size: 0.85rem">${params.data.emoji} ${params.value}</span>`;
+    }
+
+    return defaultCellRenderer(params);
+}
+
+
 export default {
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    }
+  },
   data() {
     return {
       columnDefs: null,
@@ -34,7 +50,7 @@ export default {
       gridOptions: null,
       gridApi: null,
       defaultColDef: null,
-    };
+    }
   },
   components: {
     AgGridVue,
@@ -50,65 +66,18 @@ export default {
     this.defaultColDef = { resizable: true, sortable: true, filter: 'agNumberColumnFilter' };
     this.columnDefs = [
       {
-        headerName: 'البلد', field: 'country', filter: 'agTextColumnFilter', cellRenderer: defaultCellRenderer,
+        headerName: 'البلد', field: 'country_arabic', filter: 'agTextColumnFilter', cellRenderer: countryCellRenderer,
       },
-      { headerName: 'اجمالي الإصابات', field: 'total_cases', cellRenderer: defaultCellRenderer },
-      { headerName: 'الإصابات الجديدة', field: 'new_cases', cellRenderer: newCasesCellRenderer },
-      { headerName: 'معدل الزيادة', field: 'recovered', cellRenderer: defaultCellRenderer },
+      { headerName: 'اجمالي الإصابات', field: 'total_confirmed', cellRenderer: defaultCellRenderer },
+      { headerName: 'الإصابات الجديدة', field: 'new_confirmed', cellRenderer: newCasesCellRenderer },
+      { headerName: 'معدل الزيادة', field: 'increase_rate', cellRenderer: defaultCellRenderer },
       { headerName: 'اجمالي الوفيات', field: 'total_deaths', cellRenderer: defaultCellRenderer },
       { headerName: 'الوفيات الجديدة', field: 'new_deaths', cellRenderer: newDeathsCellRenderer },
-      { headerName: 'معدل الوفاة', field: 'recovered', cellRenderer: defaultCellRenderer },
-      { headerName: 'المتعافين', field: 'recovered', cellRenderer: defaultCellRenderer },
-      { headerName: 'الحالات النشطة', field: 'recovered', cellRenderer: defaultCellRenderer },
+      { headerName: 'معدل الوفاة', field: 'death_rate', cellRenderer: defaultCellRenderer },
+      { headerName: 'المتعافين', field: 'total_recovered', cellRenderer: defaultCellRenderer },
+      { headerName: 'الحالات النشطة', field: 'active', cellRenderer: defaultCellRenderer },
     ];
 
-    this.rowData = [
-      {
-        country: 'أيطاليا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'ألمانيا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'السويد', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'أمريكا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'مصر', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'السودان', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'روسيا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'البرتغال', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'فرنسا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'السعودية', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'الأردن', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'العراق', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'سوريا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'البرازيل', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-      {
-        country: 'فلسطين', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
-      },
-    ];
   },
   mounted() {
     this.gridApi = this.gridOptions.api;

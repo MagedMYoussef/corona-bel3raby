@@ -85,12 +85,12 @@
         </div>
       </div>
 
-      <div class="card table">
+      <div class="card table" v-if="countriesData">
         <div class="card-title">
           احصائيات الدول
         </div>
         <div class="card-content">
-          <Grid></Grid>
+          <Grid :data="countriesData"></Grid>
         </div>
       </div>
       </div>
@@ -224,6 +224,7 @@ export default {
   data() {
     return {
       stats: null,
+      countriesData: null,
       datacollection: null,
       options: {
         responsive: true,
@@ -261,10 +262,18 @@ export default {
   },
   methods: {
     getData() {
-      const { res } = this.$axios.get(`/api/stats/`)
+      axios
+        .get('/api/stats/')
         .then(res => {
-            console.log('statssss', res);
-            this.stats = res.data;
+          console.log('statssss', res);
+          this.stats = res.data;
+        });
+
+      axios
+        .get('/api/reports/latest/')
+        .then(res => {
+          console.log('report latest', res);
+          this.countriesData = res.data;
         });
     },
     fillData() {

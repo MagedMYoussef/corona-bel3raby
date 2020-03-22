@@ -170,17 +170,4 @@ def get_stats():
 
 
 def get_country_info(country):
-
-    if country == "Cruise Ship" or country == "St. Martin" or country == "Saint Martin" or country == "Channel Islands" or country == "Holy See" or country == "Saint Barthelemy":
-        country = "Others"
-
-    if country == "Korea, South":
-        country = "South Korea"
-    if country == "US":
-        country = "United States"
-    if country == "Czechia":
-        country = "Czech Republic"
-    if country == "Taiwan*":
-        country = "Taiwan"
-
     return CountryMap.get(country, {})
