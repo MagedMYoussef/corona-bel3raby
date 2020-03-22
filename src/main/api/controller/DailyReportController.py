@@ -20,7 +20,7 @@ class DailyReport(Resource):
         return msg, status
 
 
-class TrendGraph(Resource):
+class Trends(Resource):
     def get(self):
         """Get the daily trends over a period of time"""
         trends = get_trends()

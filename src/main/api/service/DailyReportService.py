@@ -5,6 +5,7 @@ from src.main.api.util.Database import batch_save
 from src.main.api.util.Database import db, commit
 import datetime
 
+from src.main.api.util.CountryMap import CountryMap
 
 def get_all_reports():
     reports = db.session.query(DailyReport).all()
@@ -88,7 +89,36 @@ def add_report(data):
 
 
 def get_trends():
-    pass
+    # get the latest reports
+    latest_reports = db.session.query(DailyReport).all()
+    summary = {
+        "confirmed": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}},
+        "deaths": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}},
+        "recovered": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}}
+    }
+
+    # fill the summary
+    keys = ["confirmed", "deaths", "recovered"]
+    for report in latest_reports:
+
+        report = report.serialize()
+
+        for key in keys:
+            summary[key]["worldwide"][report["report_date"]] = int(report[key])
+
+        country = get_country_info(report["country"])
+
+        if country["country"] == "Egypt":
+            for key in keys:
+                summary[key]["egypt"][report["report_date"]] = int(report[key])
+        if country["continent"] == "Africa":
+            for key in keys:
+                summary[key]["africa"][report["report_date"]] = int(report[key])
+        if country["arab"]:
+            for key in keys:
+                summary[key]["arab"][report["report_date"]] = int(report[key])
+
+    return summary
 
 
 def get_stats():
@@ -110,18 +140,36 @@ def get_stats():
 
         report = report.serialize()
 
-        if report["country"] == "Egypt":
-            identifier = "egypt"
-        elif report["continent"] == "Africa":
-            identifier = "africa"
-        elif report["arab"] is True:
-            identifier = "arab"
-        else:
-            identifier = None
-
         for key in keys:
             summary[key]["worldwide"] += int(report[key])
-            if identifier:
-                summary[key][identifier] += int(report[key])
+
+        country = get_country_info(report["country"])
+
+        if country["country"] == "Egypt":
+            for key in keys:
+                summary[key]["egypt"] += int(report[key])
+        if country["continent"] == "Africa":
+            for key in keys:
+                summary[key]["africa"] += int(report[key])
+        if country["arab"]:
+            for key in keys:
+                summary[key]["arab"] += int(report[key])
 
     return summary
+
+
+def get_country_info(country):
+
+    if country == "Cruise Ship" or country == "St. Martin" or country == "Saint Martin" or country == "Channel Islands" or country == "Holy See" or country == "Saint Barthelemy":
+        country = "Others"
+
+    if country == "Korea, South":
+        country = "South Korea"
+    if country == "US":
+        country = "United States"
+    if country == "Czechia":
+        country = "Czech Republic"
+    if country == "Taiwan*":
+        country = "Taiwan"
+
+    return CountryMap[country]
