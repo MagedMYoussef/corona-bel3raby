@@ -1,10 +1,11 @@
 <template>
   <div class="container">
+    <!-- <news-bar :newNews="'China: 43, USA: 9199'"></news-bar> -->
 
     <div class="header">
       <div class="logo">
         <a href="http://bel3raby.net" target="_blank">
-          <img src="bel3raby-icon.png" alt="logo-bel3raby">
+          <img src="bel3raby-icon.png" alt="logo-bel3raby" />
         </a>
         كورونا بالعربي
       </div>
@@ -16,7 +17,6 @@
         <a @click="fillData()" href="#">الدول العربية</a>
       </div>
 
-
       <div class="links">
         <a href="#">أخبار</a>
         <a href="#">شائعات</a>
@@ -26,71 +26,89 @@
     </div>
 
     <div class="main">
-
       <div class="row">
-      <div class="card">
-        <div class="card-title">
-          معدل الحالات
+        <div class="card">
+          <div class="card-title">
+            معدل الحالات
+          </div>
+          <div class="card-content">
+            <chart
+              class="chart"
+              :chart-data="datacollection"
+              :options="options"
+            ></chart>
+          </div>
         </div>
-        <div class="card-content">
-            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">
-          معدل الوفيات
-        </div>
-        <div class="card-content">
-            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
-        </div>
-      </div>
-      </div>
-
-
-      <div class="row">
-              <div class="card">
-        <div class="card-title">
-          أكثر الدول في الحالات
-        </div>
-        <div class="card-content">
-            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">
-          أكثر الدول في الوفيات
-        </div>
-        <div class="card-content">
-            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
-        </div>
-      </div>
-       <div class="card">
-        <div class="card-title">
-          معدل الوفيات
-        </div>
-        <div class="card-content">
-            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
-        </div>
-      </div>
-      </div>
 
         <div class="card">
+          <div class="card-title">
+            معدل الوفيات
+          </div>
+          <div class="card-content">
+            <chart
+              class="chart"
+              :chart-data="datacollection"
+              :options="options"
+            ></chart>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="card">
+          <div class="card-title">
+            أكثر الدول في الحالات
+          </div>
+          <div class="card-content">
+            <chart
+              class="chart"
+              :chart-data="datacollection"
+              :options="options"
+            ></chart>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            أكثر الدول في الوفيات
+          </div>
+          <div class="card-content">
+            <chart
+              class="chart"
+              :chart-data="datacollection"
+              :options="options"
+            ></chart>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            معدل الوفيات
+          </div>
+          <div class="card-content">
+            <chart
+              class="chart"
+              :chart-data="datacollection"
+              :options="options"
+            ></chart>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
         <div class="card-title">
           احصائيات الدول
         </div>
         <div class="card-content">
-            <Grid></Grid>
+          <Grid></Grid>
         </div>
       </div>
     </div>
 
     <div class="sidebar">
-
-        <div class="card-2">
+      <div class="card-2">
         <div class="card-2-content">
-          <h1>اجمالي الحالات <br/>
+          <h1>
+            اجمالي الحالات <br />
             <span style="color: #03a9f4;">180,000</span>
           </h1>
           <table>
@@ -108,9 +126,10 @@
         </div>
       </div>
 
-        <div class="card-2">
+      <div class="card-2">
         <div class="card-2-content">
-          <h1>اجمالي المتعافين <br/>
+          <h1>
+            اجمالي المتعافين <br />
             <span style="color: #42d885;">50,000</span>
           </h1>
           <table>
@@ -128,10 +147,10 @@
         </div>
       </div>
 
-
-        <div class="card-2">
+      <div class="card-2">
         <div class="card-2-content">
-          <h1>اجمالي الوفيات <br/>
+          <h1>
+            اجمالي الوفيات <br />
             <span style="color: #ff5b93;">10,000</span>
           </h1>
           <table>
@@ -149,9 +168,10 @@
         </div>
       </div>
 
- <div class="card-2">
+      <div class="card-2">
         <div class="card-2-content">
-          <h1>الحالات الجديدة <br/>
+          <h1>
+            الحالات الجديدة <br />
             <span style="color: #ff5b93;">10,000</span>
           </h1>
           <table>
@@ -169,9 +189,10 @@
         </div>
       </div>
 
-       <div class="card-2">
+      <div class="card-2">
         <div class="card-2-content">
-          <h1>الوفيات الجديدة <br/>
+          <h1>
+            الوفيات الجديدة <br />
             <span style="color: #ff5b93;">10,000</span>
           </h1>
           <table>
@@ -189,99 +210,135 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import Chart from '~/components/Chart.vue'
-import Grid from '~/components/Grid.vue'
+import Chart from "~/components/Chart.vue";
+import Grid from "~/components/Grid.vue";
+import NewsBar from "~/components/NewsBar.vue";
 
 export default {
   components: {
-    Logo,
+    "news-bar": NewsBar,
     Chart,
     Grid
   },
-  data () {
+  data() {
     return {
       datacollection: null,
       options: {
         responsive: true,
         maintainAspectRatio: false,
         tooltips: {
-          mode: 'label'
+          mode: "label",
+          intersect: false
         },
         scales: {
-          xAxes: [{
-            display: true,
-            gridLines: {
+          xAxes: [
+            {
               display: true,
-              color: '#58585860'
+              gridLines: {
+                display: true,
+                color: "#58585860"
+              }
             }
-          }],
-          yAxes: [{
-            display: true,
-            gridLines: {
+          ],
+          yAxes: [
+            {
               display: true,
-              color: '#58585860'
+              gridLines: {
+                display: true,
+                color: "#58585860"
+              }
             }
-          }]
+          ]
         }
-
       }
-    }
+    };
   },
-  mounted () {
-    this.fillData()
+  mounted() {
+    this.fillData();
   },
   methods: {
-    fillData () {
-      console.log('fillData');
+    fillData() {
+      console.log("fillData");
       this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()],
+        labels: [
+          this.getRandomInt(),
+          this.getRandomInt(),
+          this.getRandomInt(),
+          this.getRandomInt()
+        ],
         datasets: [
           {
-            label: 'Data One',
-            borderColor: '#1e88e5',
+            label: "Data One",
+            borderColor: "#1e88e5",
             fill: false,
             pointBorderColor: "#1e88e5",
             pointBackgroundColor: "#1e88e5",
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
-          }, {
-            label: 'Data Two',
-            borderColor: '#ffc107',
+            data: [
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt()
+            ]
+          },
+          {
+            label: "Data Two",
+            borderColor: "#ffc107",
             fill: false,
             pointBorderColor: "#ffc107",
             pointBackgroundColor: "#ffc107",
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+            data: [
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt()
+            ]
           },
           {
-            label: 'Data Three',
-            borderColor: '#db4437',
+            label: "Data Three",
+            borderColor: "#db4437",
             fill: false,
             pointBorderColor: "#db4437",
             pointBackgroundColor: "#db4437",
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+            data: [
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt(),
+              this.getRandomInt()
+            ]
           }
         ]
-      }
+      };
     },
-    getRandomInt () {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+    getRandomInt() {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     }
   }
-
-}
+};
 </script>
 
 <style lang="scss">
+@import url("https://fonts.googleapis.com/css?family=Almarai|El+Messiri|Cairo|Tajawal&display=swap");
 
-@import url('https://fonts.googleapis.com/css?family=Almarai|El+Messiri|Cairo|Tajawal&display=swap');
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #202124;
+  background-color: #202124;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #202124;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #505258;
+}
 
 .container {
-  font-family: 'El Messiri', sans-serif;
+  font-family: "El Messiri", sans-serif;
   min-height: 100vh;
   min-width: 100vw;
   display: flex;
@@ -290,24 +347,25 @@ export default {
   color: #fff;
   position: absolute;
   direction: rtl;
+  overflow-x: hidden;
 }
 
 .header {
-    position: fixed;
-    top: 0;
-    width: 80vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    font-size: 1rem;
-    background: #202124;
-    z-index: 999999;
+  position: fixed;
+  top: 0;
+  width: 80vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1rem;
+  background: #202124;
+  z-index: 999999;
 }
 
 .logo {
-  font-family: 'Cairo', sans-serif;
-  color: #FFC023;
+  font-family: "Cairo", sans-serif;
+  color: #ffc023;
   font-size: 1.5rem;
 }
 
@@ -322,26 +380,31 @@ export default {
 }
 
 .links a:hover {
-  color: #FFC023;
-  border-bottom: 2px solid #FFC023;
+  color: #ffc023;
+  border-bottom: 2px solid #ffc023;
 }
 
 .sidebar {
-  background: #2B2E37;
+  background: #2b2e37;
   width: 20vw;
-  z-index: 9999;
+  height: 100vh;
+  z-index: 9999999;
+  position: fixed;
+  left: 0;
+  overflow-y: auto;
 }
 
 .main {
   padding-top: 6rem;
   width: 80vw;
   height: 100vh;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   direction: ltr;
 }
 
 .country-filter a {
-  color: #FFC023;
+  color: #ffc023;
   padding: 0.7rem 1.5rem;
   border-radius: 18px;
   font-size: 1rem;
@@ -349,13 +412,13 @@ export default {
 }
 
 .country-filter a.active {
-  background: #FFC023;
+  background: #ffc023;
   color: #202124;
   font-weight: 700;
 }
 
 .country-filter a:hover {
-  background: #FFC023;
+  background: #ffc023;
   color: #202124;
   font-weight: 700;
 }
@@ -391,7 +454,6 @@ export default {
   flex: 1;
 }
 
-
 .card-2-title {
   position: relative;
   display: inline-block;
@@ -413,13 +475,11 @@ table {
   margin: 1rem auto;
 
   th {
-      color: #FFC023;
-      padding: 0.5rem;
-
-    }
+    color: #ffc023;
+    padding: 0.5rem;
+  }
   td {
     color: rgb(131, 131, 131);
-
   }
 }
 
@@ -431,6 +491,4 @@ h1 {
     font-size: 2rem;
   }
 }
-
-
 </style>

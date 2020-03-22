@@ -12,75 +12,99 @@
 
 <script>
 
+import { AgGridVue } from 'ag-grid-vue';
+
 function defaultCellRenderer(params) {
-    return `<span style="font-size: 0.85rem;">${params.value}</span>`;
+  return `<span style="font-size: 0.85rem;">${params.value}</span>`;
 }
 
 function newCasesCellRenderer(params) {
-    return `<span style="background: #ffc023; color: #000; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
+  return `<span style="background: #ffc023; color: #000; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
 }
 
 function newDeathsCellRenderer(params) {
-    return `<span style="background: #db4437; color: #fff; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
+  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
 }
 
-    import {AgGridVue} from "ag-grid-vue";
+export default {
+  data() {
+    return {
+      columnDefs: null,
+      rowData: null,
+      gridOptions: null,
+      gridApi: null,
+      defaultColDef: null,
+    };
+  },
+  components: {
+    AgGridVue,
+  },
+  methods: {
+  },
+  beforeMount() {
+    this.gridOptions = {
+      enableRtl: true,
+      floatingFilter: true,
+    };
+    this.defaultColDef = { resizable: true, sortable: true, filter: 'agNumberColumnFilter' };
+    this.columnDefs = [
+      {
+        headerName: 'البلد', field: 'country', filter: 'agTextColumnFilter', cellRenderer: defaultCellRenderer,
+      },
+      { headerName: 'اجمالي الإصابات', field: 'total_cases', cellRenderer: defaultCellRenderer },
+      { headerName: 'الإصابات الجديدة', field: 'new_cases', cellRenderer: newCasesCellRenderer },
+      { headerName: 'معدل الزيادة', field: 'recovered', cellRenderer: defaultCellRenderer },
+      { headerName: 'اجمالي الوفيات', field: 'total_deaths', cellRenderer: defaultCellRenderer },
+      { headerName: 'الوفيات الجديدة', field: 'new_deaths', cellRenderer: newDeathsCellRenderer },
+      { headerName: 'معدل الوفاة', field: 'recovered', cellRenderer: defaultCellRenderer },
+      { headerName: 'المتعافين', field: 'recovered', cellRenderer: defaultCellRenderer },
+      { headerName: 'الحالات النشطة', field: 'recovered', cellRenderer: defaultCellRenderer },
+    ];
 
-    export default {
-        data() {
-            return {
-                columnDefs: null,
-                rowData: null,
-                gridOptions: null,
-                gridApi: null,
-                defaultColDef: null
-            }
-        },
-        components: {
-            AgGridVue
-        },
-        methods: {
-        },
-        beforeMount() {
-
-            this.gridOptions = {
-                enableRtl: true,
-                floatingFilter: true
-            };
-            this.defaultColDef = { resizable: true, sortable: true, filter: 'agNumberColumnFilter' };
-            console.log('tableeeeee')
-            this.columnDefs = [
-                {headerName: 'البلد', field: 'country', filter: 'agTextColumnFilter', cellRenderer: defaultCellRenderer},
-                {headerName: 'اجمالي الإصابات', field: 'total_cases', cellRenderer: defaultCellRenderer},
-                {headerName: 'الإصابات الجديدة', field: 'new_cases', cellRenderer: newCasesCellRenderer},
-                {headerName: 'اجمالي الوفيات', field: 'total_deaths', cellRenderer: defaultCellRenderer},
-                {headerName: 'الوفيات الجديدة', field: 'new_deaths', cellRenderer: newDeathsCellRenderer},
-                {headerName: 'المتعافين', field: 'recovered', cellRenderer: defaultCellRenderer},
-                {headerName: 'الحالات النشطة', field: 'recovered', cellRenderer: defaultCellRenderer},
-            ];
-
-            this.rowData = [
-                {country: 'أيطاليا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'ألمانيا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'السويد', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'أمريكا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'مصر', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'السودان', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'روسيا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'البرتغال', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'فرنسا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'السعودية', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'الأردن', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-                {country: 'العراق', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000},
-            ];
-
-
-        },
-        mounted() {
-            this.gridApi = this.gridOptions.api;
-            this.gridApi.sizeColumnsToFit();
-        }
-    }
+    this.rowData = [
+      {
+        country: 'أيطاليا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'ألمانيا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'السويد', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'أمريكا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'مصر', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'السودان', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'روسيا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'البرتغال', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'فرنسا', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'السعودية', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'الأردن', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+      {
+        country: 'العراق', total_cases: 120000, new_cases: 5000, total_deaths: 3000, new_deaths: 500, recovered: 10000,
+      },
+    ];
+  },
+  mounted() {
+    this.gridApi = this.gridOptions.api;
+    this.gridApi.sizeColumnsToFit();
+  },
+};
 
 </script>
 
