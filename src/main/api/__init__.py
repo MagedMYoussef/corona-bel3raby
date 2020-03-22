@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_restplus import Api
 
 from .util.Database import db
-from .config import configs
+from .conf.config import configs
 
 from src.main.api.controller.UserController import UserList, User
 from src.main.api.controller.DailyReportController import DailyReport, Trends, Stats

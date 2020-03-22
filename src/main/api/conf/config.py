@@ -8,14 +8,14 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///../../../db.dev'
+    SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(os.getenv('DATABASE_URL', 'db.dev'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///../../../db.test'
+    SQLALCHEMY_DATABASE_URI = "sqlite:///{}".format(os.getenv('DATABASE_URL', 'db.test'))
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
