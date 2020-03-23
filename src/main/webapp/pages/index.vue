@@ -1,6 +1,8 @@
 <template>
   <div class="container">
 
+    <NewsBar :news="newsbarData"></NewsBar>
+
     <div class="header">
       <div class="logo">
         <a href="http://bel3raby.net" target="_blank">
@@ -194,9 +196,11 @@ import axios from "axios";
 
 import Chart from "~/components/Chart.vue";
 import Grid from "~/components/Grid.vue";
+import NewsBar from "~/components/NewsBar.vue";
 
 export default {
   components: {
+    NewsBar,
     Chart,
     Grid
   },
@@ -252,14 +256,13 @@ export default {
         this.countriesData = res.data;
 
         // TODO: Replace it with new_confirmed
-        this.newsbarData = "";
+        this.newsbarData = [];
         res.data
           .sort((a, b) => b.total_confirmed - a.total_confirmed)
-          .slice(0, 25)
+          .slice(0, 50)
           .forEach(e => {
-            this.newsbarData += `<div class="ticker__item">${e.emoji} ${e.country_arabic} ${e.total_confirmed} (+${e.new_confirmed})</div>`;
+            this.newsbarData.push(`${e.emoji} ${e.country_arabic}  ${e.new_confirmed} <span class="arrow-up"></span> `);
           });
-        console.log('newsbar', this.newsbarData)
       });
 
     },
