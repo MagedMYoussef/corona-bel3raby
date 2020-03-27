@@ -38,14 +38,14 @@ function newCasesCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #ffc023; color: #000; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
+  return `<span style="background: #ffc023; color: #000; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value.toLocaleString()}+</span>`;
 }
 
 function newDeathsCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
+  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value.toLocaleString()}+</span>`;
 }
 
 function countryCellRenderer(params) {
@@ -94,7 +94,7 @@ export default {
     this.defaultColDef = { resizable: true, sortable: true, filter: 'agNumberColumnFilter' };
     this.columnDefs = [
       {
-        headerName: 'البلد', field: 'country_arabic', filter: 'agTextColumnFilter', cellRenderer: countryCellRenderer,
+        headerName: 'البلد', field: 'country_arabic', filter: 'agTextColumnFilter', cellRenderer: countryCellRenderer, minWidth: 200
       },
       { headerName: 'الإصابات', field: 'total_confirmed', cellRenderer: defaultCellRenderer },
       { headerName: 'الإصابات الجديدة', field: 'new_confirmed', cellRenderer: newCasesCellRenderer },

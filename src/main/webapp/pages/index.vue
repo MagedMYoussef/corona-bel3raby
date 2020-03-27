@@ -12,10 +12,10 @@
       </div>
 
       <div class="country-filter">
-        <a @click="fillData()" href="#" class="active">العالم</a>
-        <a @click="fillData()" href="#">مصر</a>
-        <a @click="fillData()" href="#">أفريقيا</a>
-        <a @click="fillData()" href="#">الدول العربية</a>
+        <a @click="switchArea('worldwide')" href="#" :class="area == 'worldwide' ? 'active' : ''">العالم</a>
+        <a @click="switchArea('egypt')" href="#" :class="area == 'egypt' ? 'active' : ''">مصر</a>
+        <a @click="switchArea('africa')" href="#" :class="area == 'africa' ? 'active' : ''">أفريقيا</a>
+        <a @click="switchArea('arab')" href="#" :class="area == 'arab' ? 'active' : ''">الدول العربية</a>
       </div>
 
       <div class="links">
@@ -34,7 +34,7 @@
             معدل الوفيات
           </div>
           <div class="card-content">
-            <chart class="chart" :chart-data="chartsData.worldwide.total_deaths" :options="options"></chart>
+            <chart class="chart" :chart-data="chartsData[area].total_deaths" :options="options"></chart>
           </div>
         </div>
         <div class="card">
@@ -42,7 +42,7 @@
             معدل الحالات
           </div>
           <div class="card-content">
-            <chart class="chart" :chart-data="chartsData.worldwide.total_confirmed" :options="options"></chart>
+            <chart class="chart" :chart-data="chartsData[area].total_confirmed" :options="options"></chart>
           </div>
         </div>
 
@@ -53,19 +53,19 @@
         <div>
           <div class="card">
             <div class="card-title">
-              أكثر الدول في الحالات
+              الحالات الجديدة
             </div>
             <div class="card-content">
-              <chart class="chart" :chart-data="chartsData.worldwide.new_confirmed" :options="options"></chart>
+              <chart class="chart" :chart-data="chartsData[area].new_confirmed" :options="options"></chart>
             </div>
           </div>
 
           <div class="card">
             <div class="card-title">
-              أكثر الدول في الوفيات
+              الوفيات الجديدة
             </div>
             <div class="card-content">
-              <chart class="chart" :chart-data="chartsData.worldwide.new_deaths" :options="options"></chart>
+              <chart class="chart" :chart-data="chartsData[area].new_deaths" :options="options"></chart>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
             احصائيات الدول
           </div>
           <div class="card-content">
-            <Grid :data="countriesData"></Grid>
+            <Grid ref="grid" :data="countriesData"></Grid>
           </div>
         </div>
       </div>
@@ -209,6 +209,7 @@ export default {
     return {
       stats: null,
       trends: null,
+      area: 'worldwide',
       chartsData: {
         worldwide: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
         egypt: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
@@ -216,6 +217,7 @@ export default {
         arab: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
       },
       countriesData: null,
+      latestReport: null,
       newsbarData: null,
       datacollection: null,
       options: {
@@ -255,7 +257,6 @@ export default {
     };
   },
   mounted() {
-    this.fillData();
     this.getData();
   },
   methods: {
@@ -266,12 +267,13 @@ export default {
       });
 
       axios.get("/api/reports/").then(res => {
-        this.countriesData = res.data;
+        this.latestReport = res.data;
+        this.countriesData = this.latestReport;
 
         // TODO: Replace it with new_confirmed
         this.newsbarData = [];
         res.data
-          .sort((a, b) => b.total_confirmed - a.total_confirmed)
+          .sort((a, b) => b.new_confirmed - a.new_confirmed)
           .slice(0, 50)
           .forEach(e => {
             this.newsbarData.push(`${e.emoji} ${e.country_arabic}  ${e.new_confirmed} <span class="arrow-up"></span> `);
@@ -293,15 +295,32 @@ export default {
             return {x: new Date(k), y: data[category][area][k] };
           });
 
+          let color = "#007eff";
+          let type = "line";
+
+          if (category.includes("deaths")) {
+            color = "#db4437";
+          }
+
+          if (category.includes("recovered")) {
+            color = "#37db5a";
+          }
+
+          if (category.includes("new")) {
+            type = "bar";
+          }
+
           this.chartsData[area][category] = {
             datasets: [
                 {
                   label: area + ' ' + category,
-                  borderColor: "#1e88e5",
+                  borderColor: color,
                   fill: false,
-                  pointBorderColor: "#1e88e5",
-                  pointBackgroundColor: "#1e88e5",
-                  data: points
+                  pointBorderColor: color,
+                  pointBackgroundColor: color,
+                  data: points,
+                  type: type,
+                  backgroundColor: color
                 }
               ]
           }
@@ -310,100 +329,21 @@ export default {
 
       });
 
-      console.log(this.chartsData);
-
-      // this.chartsData = {
-      //     worldwide: {
-      //       total_confirmed: {
-      //         datasets: [
-      //           {
-      //             label: "اجمالي الإصابات",
-      //             borderColor: "#1e88e5",
-      //             fill: false,
-      //             pointBorderColor: "#1e88e5",
-      //             pointBackgroundColor: "#1e88e5",
-      //             data: Object.keys(data.total_confirmed.worldwide).map(k => {
-      //               return {x: new Date(k), y: data.total_confirmed.worldwide[k] };
-      //             })
-      //           }
-      //         ]
-      //       }
-      //     },
-      //     egypt: {
-      //       total_confirmed: {
-      //           datasets: [
-      //             {
-      //               label: "اجمالي الإصابات",
-      //               borderColor: "#1e88e5",
-      //               fill: false,
-      //               pointBorderColor: "#1e88e5",
-      //               pointBackgroundColor: "#1e88e5",
-      //               data: Object.keys(data.total_confirmed.egypt).map(k => {
-      //                 return {x: new Date(k), y: data.total_confirmed.egypt[k] };
-      //               })
-      //             }
-      //           ]
-      //       }
-      //     }
-      // };
-
+      // merge recovered with confirmed (total & new)
+      Object.keys(this.chartsData).forEach(area => {
+        this.chartsData[area]['total_confirmed']['datasets'].push(...this.chartsData[area]['total_recovered']['datasets']);
+        this.chartsData[area]['new_confirmed']['datasets'].push(...this.chartsData[area]['new_recovered']['datasets']);
+      });
 
     },
-    fillData() {
-      console.log("fillData");
-      this.datacollection = {
-        labels: [
-          this.getRandomInt(),
-          this.getRandomInt(),
-          this.getRandomInt(),
-          this.getRandomInt()
-        ],
-        datasets: [
-          {
-            label: "Data One",
-            borderColor: "#1e88e5",
-            fill: false,
-            pointBorderColor: "#1e88e5",
-            pointBackgroundColor: "#1e88e5",
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt()
-            ]
-          },
-          {
-            label: "Data Two",
-            borderColor: "#ffc107",
-            fill: false,
-            pointBorderColor: "#ffc107",
-            pointBackgroundColor: "#ffc107",
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt()
-            ]
-          },
-          {
-            label: "Data Three",
-            borderColor: "#db4437",
-            fill: false,
-            pointBorderColor: "#db4437",
-            pointBackgroundColor: "#db4437",
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt()
-            ]
-          }
-        ]
-      };
+    switchArea(area) {
+      this.area = area;
+
+      this.countriesData = this.latestReport.filter(e => area == "worldwide" || (area == "egypt" && e.country == "Egypt") || (area == "arab" && e.arab) || (area == "africa" && e.continent == "Africa"));
+
+      console.log('switch', this.$refs.grid, this.countriesData);
+
     },
-    getRandomInt() {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
-    }
   }
 };
 </script>
