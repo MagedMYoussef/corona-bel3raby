@@ -6,12 +6,18 @@ class DailyReport(db.Model):
     __tablename__ = "daily_reports"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    province = db.Column(db.String(100))
     country = db.Column(db.String(100))
     report_date = db.Column(db.Date())
-    confirmed = db.Column(db.Integer())
-    deaths = db.Column(db.Integer())
-    recovered = db.Column(db.Integer())
+    total_confirmed = db.Column(db.Integer())
+    total_deaths = db.Column(db.Integer())
+    total_recovered = db.Column(db.Integer())
+    total_active = db.Column(db.Integer())
+
+    new_confirmed = db.Column(db.Integer())
+    new_deaths = db.Column(db.Integer())
+    new_recovered = db.Column(db.Integer())
+    death_rate = db.Column(db.Float())
+    increase_rate = db.Column(db.Float())
 
     def serialize(self):
         return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
