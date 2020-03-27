@@ -31,10 +31,10 @@ def read_csv(file):
 API_ENDPOINT = 'http://localhost:5000/api/reports/'
 
 # daily covid-19 reports location
-daily_reports_location = '/Users/mamagdy/Code/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports/'
+DATA_LOCATION = '/Users/mamagdy/Code/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports/'
 
 # parse all files in this directory
-reports = list(filter(os.path.isfile, glob.glob(daily_reports_location + "*")))
+reports = list(filter(os.path.isfile, glob.glob(DATA_LOCATION + "*")))
 reports.sort(key=lambda x: os.path.getmtime(x))
 
 print(reports)

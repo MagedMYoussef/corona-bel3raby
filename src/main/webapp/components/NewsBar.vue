@@ -13,7 +13,7 @@
 export default {
   props: {
     news: {
-      type: String,
+      type: Array,
       required: true
     }
   }

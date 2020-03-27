@@ -1,5 +1,6 @@
 from ..util.Database import db
 
+from datetime import date
 
 class DailyReport(db.Model):
     """ User Model for storing covid-19 daily reports """
@@ -20,4 +21,4 @@ class DailyReport(db.Model):
     increase_rate = db.Column(db.Float())
 
     def serialize(self):
-        return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        return {c.name: getattr(self, c.name) if not isinstance(getattr(self, c.name), date) else str(getattr(self, c.name)) for c in self.__table__.columns}

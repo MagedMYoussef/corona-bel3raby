@@ -14,15 +14,37 @@
 
 import { AgGridVue } from 'ag-grid-vue';
 
+function isFloat(n){
+  return Number(n) === n && n % 1 !== 0;
+}
+
 function defaultCellRenderer(params) {
-  return `<span style="font-size: 0.85rem;">${params.value}</span>`;
+
+  let value = params.value;
+  value = parseFloat(value);
+
+  if (!value) {
+    return `<span style="font-size: 0.85rem;">${params.value}</span>`;
+  }
+
+  if (isFloat(value)) {
+    value = value.toFixed(1);
+  }
+
+  return `<span style="font-size: 0.85rem;">${value.toLocaleString()}</span>`;
 }
 
 function newCasesCellRenderer(params) {
+  if (params.value == 0) {
+    return params.value;
+  }
   return `<span style="background: #ffc023; color: #000; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
 }
 
 function newDeathsCellRenderer(params) {
+  if (params.value == 0) {
+    return params.value;
+  }
   return `<span style="background: #db4437; color: #fff; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value}+</span>`;
 }
 
@@ -33,6 +55,11 @@ function countryCellRenderer(params) {
     }
 
     return defaultCellRenderer(params);
+}
+
+function rateCellRenderer(params) {
+  params.value = params.value * 100;
+  return defaultCellRenderer(params);
 }
 
 
@@ -49,6 +76,7 @@ export default {
       rowData: null,
       gridOptions: null,
       gridApi: null,
+      columnApi: null,
       defaultColDef: null,
     }
   },
@@ -68,20 +96,25 @@ export default {
       {
         headerName: 'البلد', field: 'country_arabic', filter: 'agTextColumnFilter', cellRenderer: countryCellRenderer,
       },
-      { headerName: 'اجمالي الإصابات', field: 'total_confirmed', cellRenderer: defaultCellRenderer },
+      { headerName: 'الإصابات', field: 'total_confirmed', cellRenderer: defaultCellRenderer },
       { headerName: 'الإصابات الجديدة', field: 'new_confirmed', cellRenderer: newCasesCellRenderer },
-      { headerName: 'معدل الزيادة', field: 'increase_rate', cellRenderer: defaultCellRenderer },
-      { headerName: 'اجمالي الوفيات', field: 'total_deaths', cellRenderer: defaultCellRenderer },
+      { headerName: 'معدل الزيادة', field: 'increase_rate', cellRenderer: rateCellRenderer },
+      { headerName: 'الوفيات', field: 'total_deaths', cellRenderer: defaultCellRenderer },
       { headerName: 'الوفيات الجديدة', field: 'new_deaths', cellRenderer: newDeathsCellRenderer },
-      { headerName: 'معدل الوفاة', field: 'death_rate', cellRenderer: defaultCellRenderer },
+      { headerName: 'معدل الوفاة', field: 'death_rate', cellRenderer: rateCellRenderer },
       { headerName: 'المتعافين', field: 'total_recovered', cellRenderer: defaultCellRenderer },
-      { headerName: 'الحالات النشطة', field: 'active', cellRenderer: defaultCellRenderer },
+      { headerName: 'الحالات النشطة', field: 'total_active', cellRenderer: defaultCellRenderer },
     ];
 
   },
   mounted() {
     this.gridApi = this.gridOptions.api;
-    this.gridApi.sizeColumnsToFit();
+    this.columnApi = this.gridOptions.columnApi;
+
+    var allColIds = this.columnApi.getAllColumns()
+        .map(column => column.colId);
+
+    this.columnApi.autoSizeColumns(allColIds);
   },
 };
 

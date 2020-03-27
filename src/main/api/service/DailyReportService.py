@@ -1,9 +1,7 @@
-from src.main.api.model.DailyReport import DailyReport
-from src.main.api.util.Database import batch_save
-
-from src.main.api.util.Database import db, commit
 import datetime
 
+from src.main.api.model.DailyReport import DailyReport
+from src.main.api.util.Database import batch_save, db, commit
 from src.main.api.util.CountryMap import CountryMap
 
 KEYS = ["total_confirmed", "total_deaths", "total_recovered", "total_active", "new_confirmed", "new_deaths", "new_recovered"]
@@ -37,8 +35,6 @@ def add_report(data):
     latest_report = get_latest_report()
 
     reports = data['country_report']
-
-    print("reports {}".format(len(reports)))
 
     # group by country
     country_reports = {}

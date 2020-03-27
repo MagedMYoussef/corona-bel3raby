@@ -1,7 +1,7 @@
 <template>
   <div class="container">
 
-    <NewsBar :news="newsbarData"></NewsBar>
+    <!-- <NewsBar :news="newsbarData"></NewsBar> -->
 
     <div class="header">
       <div class="logo">
@@ -28,23 +28,24 @@
 
     <div class="main">
       <div class="row">
-        <div class="card">
-          <div class="card-title">
-            معدل الحالات
-          </div>
-          <div class="card-content">
-            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
-          </div>
-        </div>
 
         <div class="card">
           <div class="card-title">
             معدل الوفيات
           </div>
           <div class="card-content">
-            <chart class="chart" :chart-data="datacollection" :options="options"></chart>
+            <chart class="chart" :chart-data="chartsData.worldwide.total_deaths" :options="options"></chart>
           </div>
         </div>
+        <div class="card">
+          <div class="card-title">
+            معدل الحالات
+          </div>
+          <div class="card-content">
+            <chart class="chart" :chart-data="chartsData.worldwide.total_confirmed" :options="options"></chart>
+          </div>
+        </div>
+
       </div>
 
       <div class="row">
@@ -55,7 +56,7 @@
               أكثر الدول في الحالات
             </div>
             <div class="card-content">
-              <chart class="chart" :chart-data="datacollection" :options="options"></chart>
+              <chart class="chart" :chart-data="chartsData.worldwide.new_confirmed" :options="options"></chart>
             </div>
           </div>
 
@@ -64,7 +65,7 @@
               أكثر الدول في الوفيات
             </div>
             <div class="card-content">
-              <chart class="chart" :chart-data="datacollection" :options="options"></chart>
+              <chart class="chart" :chart-data="chartsData.worldwide.new_deaths" :options="options"></chart>
             </div>
           </div>
         </div>
@@ -87,7 +88,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي الحالات <br />
-            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide }}</span>
+            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -96,9 +97,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_confirmed.egypt }}</td>
-              <td>{{ stats.total_confirmed.africa }}</td>
-              <td>{{ stats.total_confirmed.arab }}</td>
+              <td>{{ stats.total_confirmed.egypt.toLocaleString() }}</td>
+              <td>{{ stats.total_confirmed.africa.toLocaleString() }}</td>
+              <td>{{ stats.total_confirmed.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -108,7 +109,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي المتعافين <br />
-            <span style="color: #42d885;">{{ stats.total_recovered.worldwide }}</span>
+            <span style="color: #42d885;">{{ stats.total_recovered.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -117,9 +118,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_recovered.egypt }}</td>
-              <td>{{ stats.total_recovered.africa }}</td>
-              <td>{{ stats.total_recovered.arab }}</td>
+              <td>{{ stats.total_recovered.egypt.toLocaleString() }}</td>
+              <td>{{ stats.total_recovered.africa.toLocaleString() }}</td>
+              <td>{{ stats.total_recovered.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -129,7 +130,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي الوفيات <br />
-            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide }}</span>
+            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -138,9 +139,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_deaths.egypt }}</td>
-              <td>{{ stats.total_deaths.africa }}</td>
-              <td>{{ stats.total_deaths.arab }}</td>
+              <td>{{ stats.total_deaths.egypt.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.africa.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -150,7 +151,7 @@
         <div class="card-2-content">
           <h1>
             الحالات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide }}</span>
+            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -159,9 +160,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.new_confirmed.egypt }}</td>
-              <td>{{ stats.new_confirmed.africa }}</td>
-              <td>{{ stats.new_confirmed.arab }}</td>
+              <td>{{ stats.new_confirmed.egypt.toLocaleString() }}</td>
+              <td>{{ stats.new_confirmed.africa.toLocaleString() }}</td>
+              <td>{{ stats.new_confirmed.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -171,7 +172,7 @@
         <div class="card-2-content">
           <h1>
             الوفيات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide }}</span>
+            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -180,9 +181,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.new_deaths.egypt }}</td>
-              <td>{{ stats.new_deaths.africa }}</td>
-              <td>{{ stats.new_deaths.arab }}</td>
+              <td>{{ stats.new_deaths.egypt.toLocaleString() }}</td>
+              <td>{{ stats.new_deaths.africa.toLocaleString() }}</td>
+              <td>{{ stats.new_deaths.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -207,6 +208,13 @@ export default {
   data() {
     return {
       stats: null,
+      trends: null,
+      chartsData: {
+        worldwide: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
+        egypt: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
+        africa: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
+        arab: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
+      },
       countriesData: null,
       newsbarData: null,
       datacollection: null,
@@ -224,6 +232,12 @@ export default {
               gridLines: {
                 display: true,
                 color: "#58585860"
+              },
+              type: 'time',
+              time: {
+                  displayFormats: {
+                      quarter: 'MMM YYYY'
+                  }
               }
             }
           ],
@@ -251,8 +265,7 @@ export default {
         this.stats = res.data;
       });
 
-      axios.get("/api/reports/latest/").then(res => {
-        console.log("report latest", res);
+      axios.get("/api/reports/").then(res => {
         this.countriesData = res.data;
 
         // TODO: Replace it with new_confirmed
@@ -264,6 +277,76 @@ export default {
             this.newsbarData.push(`${e.emoji} ${e.country_arabic}  ${e.new_confirmed} <span class="arrow-up"></span> `);
           });
       });
+
+      axios.get("/api/trends/").then(res => {
+        console.log("trends", res);
+        this.trends = res.data;
+        this.fillCharts(this.trends)
+      });
+    },
+    fillCharts(data) {
+      Object.keys(data).forEach(category => {
+
+        Object.keys(data[category]).forEach(area => {
+
+          let points = Object.keys(data[category][area]).map(k => {
+            return {x: new Date(k), y: data[category][area][k] };
+          });
+
+          this.chartsData[area][category] = {
+            datasets: [
+                {
+                  label: area + ' ' + category,
+                  borderColor: "#1e88e5",
+                  fill: false,
+                  pointBorderColor: "#1e88e5",
+                  pointBackgroundColor: "#1e88e5",
+                  data: points
+                }
+              ]
+          }
+
+        });
+
+      });
+
+      console.log(this.chartsData);
+
+      // this.chartsData = {
+      //     worldwide: {
+      //       total_confirmed: {
+      //         datasets: [
+      //           {
+      //             label: "اجمالي الإصابات",
+      //             borderColor: "#1e88e5",
+      //             fill: false,
+      //             pointBorderColor: "#1e88e5",
+      //             pointBackgroundColor: "#1e88e5",
+      //             data: Object.keys(data.total_confirmed.worldwide).map(k => {
+      //               return {x: new Date(k), y: data.total_confirmed.worldwide[k] };
+      //             })
+      //           }
+      //         ]
+      //       }
+      //     },
+      //     egypt: {
+      //       total_confirmed: {
+      //           datasets: [
+      //             {
+      //               label: "اجمالي الإصابات",
+      //               borderColor: "#1e88e5",
+      //               fill: false,
+      //               pointBorderColor: "#1e88e5",
+      //               pointBackgroundColor: "#1e88e5",
+      //               data: Object.keys(data.total_confirmed.egypt).map(k => {
+      //                 return {x: new Date(k), y: data.total_confirmed.egypt[k] };
+      //               })
+      //             }
+      //           ]
+      //       }
+      //     }
+      // };
+
 
     },
     fillData() {
