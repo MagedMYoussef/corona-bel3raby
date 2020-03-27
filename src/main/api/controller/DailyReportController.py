@@ -1,16 +1,13 @@
 from flask import request
 from flask_restplus import Resource
 
-from ..service.DailyReportService import get_report, get_trends, add_report, get_all_reports, get_stats
+from ..service.DailyReportService import get_report, get_trends, add_report, get_stats
 
 
 class DailyReport(Resource):
     def get(self, date=None):
         """Get the daily report, by default it should get the latest date"""
-        if not date:
-            reports = get_all_reports()
-        else:
-            reports = get_report(date)
+        reports = get_report(date)
         return reports
 
     def post(self):

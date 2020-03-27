@@ -1,5 +1,4 @@
 from src.main.api.model.DailyReport import DailyReport
-from src.main.api.model.LatestReport import LatestReport
 from src.main.api.util.Database import batch_save
 
 from src.main.api.util.Database import db, commit
@@ -7,16 +6,14 @@ import datetime
 
 from src.main.api.util.CountryMap import CountryMap
 
-def get_all_reports():
-    reports = db.session.query(DailyReport).all()
-    return list(map(lambda report: report.serialize(), reports))
+KEYS = ["total_confirmed", "total_deaths", "total_recovered", "total_active", "new_confirmed", "new_deaths", "new_recovered"]
 
 
 def get_report(report_date):
-    if (report_date == "latest"):
-        reports = db.session.query(LatestReport).order_by(LatestReport.report_date).all()
-    else:
-        reports = db.session.query(DailyReport).filter_by(report_date=report_date).all()
+    if (not report_date):
+        report_date = get_latest_date()
+
+    reports = db.session.query(DailyReport).filter_by(report_date=report_date).all()
     return list(map(lambda report: {**report.serialize(), **CountryMap.get(report.country, {})}, reports))
 
 
@@ -25,68 +22,115 @@ def add_report(data):
     if not data or 'country_report' not in data or 'report_date' not in data:
         return "Invalid request body. Missing 'report_date' or 'country_report' field.", 500
 
-    # validate report_date
+    # validate report_date format
     try:
         report_date = datetime.datetime.strptime(data['report_date'], '%Y-%m-%d')
     except ValueError:
         return "Incorrect report_date format, should be YYYY-MM-DD", 400
 
+    # validate if report_date doesn't exist
     report = DailyReport.query.filter_by(report_date=data['report_date']).first()
     if report:
         return "A report already exist with the same report_date value.", 400
 
-    country_report = data['country_report']
-    new_reports = []
-    for country in country_report:
-        new_report = DailyReport(
-            province=country['Province/State'],
-            country=country['Country/Region'],
-            report_date=report_date,
-            confirmed=country['Confirmed'],
-            deaths=country['Deaths'],
-            recovered=country['Recovered']
-        )
-        new_reports.append(new_report)
+    # get the latest saved report
+    latest_report = get_latest_report()
 
-    e = batch_save(db, new_reports)
+    reports = data['country_report']
+
+    print("reports {}".format(len(reports)))
+
+    # group by country
+    country_reports = {}
+    for report in reports:
+        if report["country"] not in country_reports:
+            country_reports[report["country"]] = {
+                "country": report['country'],
+                "report_date": report_date,
+                "total_confirmed": 0,
+                "total_deaths": 0,
+                "total_recovered": 0
+            }
+
+        try:
+            total_confirmed = int(report['Confirmed'])
+        except:
+            total_confirmed = 0
+
+        try:
+            total_deaths = int(report['Deaths'])
+        except:
+            total_deaths = 0
+
+        try:
+            total_recovered = int(report['Recovered'])
+        except:
+            total_recovered = 0
+
+        country_reports[report["country"]]["total_confirmed"] += total_confirmed
+        country_reports[report["country"]]["total_deaths"] += total_deaths
+        country_reports[report["country"]]["total_recovered"] += total_recovered
+
+    new_data = []
+    country_reports = country_reports.values()
+    for country in country_reports:
+
+        country['total_confirmed'] = int(country['total_confirmed'])
+        country['total_deaths'] = int(country['total_deaths'])
+        country['total_recovered'] = int(country['total_recovered'])
+
+        # calculate the active cases
+        country["total_active"] = int(country["total_confirmed"]) - int(country["total_recovered"]) - int(country["total_deaths"])
+
+        latest_country_report = {
+            "total_confirmed": 0,
+            "total_deaths": 0,
+            "total_recovered": 0
+        }
+
+        # get the latest country report to be used for 'new' calculations
+        if latest_report:
+            temp = list(filter(lambda e: e.country == country["country"], latest_report))
+            if temp:
+                latest_country_report["total_confirmed"] = temp[0].total_confirmed
+                latest_country_report["total_deaths"] = temp[0].total_deaths
+                latest_country_report["total_recovered"] = temp[0].total_recovered
+
+        # calculate the new cases
+        country["new_confirmed"] = int(country["total_confirmed"]) - int(latest_country_report["total_confirmed"])
+        country["new_deaths"] = int(country["total_deaths"]) - int(latest_country_report["total_deaths"])
+        country["new_recovered"] = int(country["total_recovered"]) - int(latest_country_report["total_recovered"])
+
+        # calculate the death rate & increase rate
+        if "new_confirmed" in country and "total_confirmed" in country and country["total_confirmed"] != 0:
+            country["increase_rate"] = country["new_confirmed"] / country["total_confirmed"]
+        else:
+            country["increase_rate"] = None
+
+        if "total_confirmed" in country and country["total_confirmed"] != 0:
+            country["death_rate"] = country["total_deaths"] / country["total_confirmed"]
+        else:
+            country["death_rate"] = None
+
+        new_country_report = DailyReport(
+            country=country['country'],
+            report_date=report_date,
+            total_confirmed=country['total_confirmed'],
+            total_deaths=country['total_deaths'],
+            total_recovered=country['total_recovered'],
+            total_active=country['total_active'],
+            new_confirmed=country['new_confirmed'],
+            new_deaths=country['new_deaths'],
+            new_recovered=country['new_recovered'],
+            death_rate=country['death_rate'],
+            increase_rate=country['increase_rate'],
+        )
+
+        new_data.append(new_country_report)
+
+    e = batch_save(db, new_data)
     if e:
         return "An error happened while adding the report {}.".format(e), 500
-
-    # update the latest report
-    # get the latest report date to be used for updating the latest report if necessary
-    latest_report = db.session.query(LatestReport).first()
-
-    if not latest_report or (latest_report and report_date.date() > latest_report.report_date):
-
-        db.session.query(LatestReport).delete()
-        e = commit(db)
-        if e:
-            return e
-
-        # TODO: Group by countries
-        # TODO: Count the 'new' numbers
-
-        # insert the data
-        latest_reports = []
-        for country in country_report:
-            new_report = LatestReport(
-                province=country['Province/State'],
-                country=country['Country/Region'],
-                report_date=report_date,
-                total_confirmed=country['Confirmed'],
-                total_deaths=country['Deaths'],
-                total_recovered=country['Recovered'],
-                active=10,
-                new_confirmed=10,
-                new_deaths=10,
-                new_recovered=10,
-                death_rate=10,
-                increase_rate=10
-            )
-            latest_reports.append(new_report)
-        e = batch_save(db, latest_reports)
-        if e:
-            return "An error happened while updating the latest report {}.".format(e), 500
 
     return "Report has been added successfully!", 201
 
@@ -94,19 +138,21 @@ def add_report(data):
 def get_trends():
     # get the latest reports
     latest_reports = db.session.query(DailyReport).order_by(DailyReport.report_date).all()
-    summary = {
-        "confirmed": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}},
-        "deaths": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}},
-        "recovered": {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}}
-    }
+
+    if not latest_reports:
+        return {}
+
+    # init the summary
+    summary = {}
+    for key in KEYS:
+        summary[key] = {"worldwide": {}, "egypt": {}, "africa": {}, "arab": {}}
 
     # fill the summary
-    keys = ["confirmed", "deaths", "recovered"]
     for report in latest_reports:
 
         report = report.serialize()
 
-        for key in keys:
+        for key in KEYS:
             if report["report_date"] not in summary[key]["worldwide"]:
                 summary[key]["worldwide"][report["report_date"]] = 0
             summary[key]["worldwide"][report["report_date"]] += int(report[key])
@@ -114,17 +160,17 @@ def get_trends():
         country = get_country_info(report["country"])
 
         if country.get("country", None) == "Egypt":
-            for key in keys:
+            for key in KEYS:
                 if report["report_date"] not in summary[key]["egypt"]:
                     summary[key]["egypt"][report["report_date"]] = 0
                 summary[key]["egypt"][report["report_date"]] += int(report[key])
         if country.get("continent", None) == "Africa":
-            for key in keys:
+            for key in KEYS:
                 if report["report_date"] not in summary[key]["africa"]:
                     summary[key]["africa"][report["report_date"]] = 0
                 summary[key]["africa"][report["report_date"]] += int(report[key])
         if country.get("arab", None):
-            for key in keys:
+            for key in KEYS:
                 if report["report_date"] not in summary[key]["arab"]:
                     summary[key]["arab"][report["report_date"]] = 0
                 summary[key]["arab"][report["report_date"]] += int(report[key])
@@ -135,35 +181,32 @@ def get_trends():
 def get_stats():
 
     # get the latest reports
-    latest_reports = db.session.query(LatestReport).order_by(LatestReport.report_date).all()
-    summary = {
-        "total_confirmed": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
-        "total_deaths": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
-        "total_recovered": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
-        "new_confirmed": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
-        "new_deaths": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0},
-        "new_recovered": {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0}
-    }
+    latest_reports = get_latest_report()
 
-    # fill the summary
-    keys = ["total_confirmed", "total_deaths", "total_recovered", "new_confirmed", "new_deaths", "new_recovered"]
+    if not latest_reports:
+        return {}
+
+    summary = {}
+    for key in KEYS:
+        summary[key] = {"worldwide": 0, "egypt": 0, "africa": 0, "arab": 0}
+
     for report in latest_reports:
 
         report = report.serialize()
 
-        for key in keys:
+        for key in KEYS:
             summary[key]["worldwide"] += int(report[key])
 
         country = get_country_info(report["country"])
 
         if country.get("country", None) == "Egypt":
-            for key in keys:
+            for key in KEYS:
                 summary[key]["egypt"] += int(report[key])
         if country.get("continent", None) == "Africa":
-            for key in keys:
+            for key in KEYS:
                 summary[key]["africa"] += int(report[key])
         if country.get("arab", None):
-            for key in keys:
+            for key in KEYS:
                 summary[key]["arab"] += int(report[key])
 
     return summary
@@ -171,3 +214,21 @@ def get_stats():
 
 def get_country_info(country):
     return CountryMap.get(country, {})
+
+
+def get_latest_report():
+
+    latest_date = get_latest_date()
+    if not latest_date:
+        return
+
+    latest_report = DailyReport.query.filter_by(report_date=latest_date).all()
+    return latest_report
+
+
+def get_latest_date():
+    latest = DailyReport.query.order_by(DailyReport.report_date.desc()).first()
+    if not latest:
+        return
+
+    return latest.report_date

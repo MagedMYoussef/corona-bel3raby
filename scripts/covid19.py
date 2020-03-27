@@ -1,9 +1,11 @@
 #! /usr/local/bin/python3
 
-import os
 import csv
 import requests
 import json
+import glob
+import os
+
 
 def read_csv(file):
 
@@ -11,6 +13,15 @@ def read_csv(file):
     with open(file, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
+
+            # map the country fields
+            if "Country_Region" in row:
+                row["country"] = row["Country_Region"]
+            elif "Country/Region" in row:
+                row["country"] = row["Country/Region"]
+            else:
+                continue
+
             data.append(row)
 
     return data
@@ -20,22 +31,24 @@ def read_csv(file):
 API_ENDPOINT = 'http://localhost:5000/api/reports/'
 
 # daily covid-19 reports location
-daily_reports_location = '/Users/mamagdy/Code/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports'
+daily_reports_location = '/Users/mamagdy/Code/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports/'
 
 # parse all files in this directory
-reports = os.listdir(daily_reports_location)
-
-# TODO: existing reports
-
+reports = list(filter(os.path.isfile, glob.glob(daily_reports_location + "*")))
+reports.sort(key=lambda x: os.path.getmtime(x))
 
 print(reports)
-for report_name in reports:
-    report_location = daily_reports_location + '/' + report_name
-    data = read_csv(report_location)
 
-    # report date
+for report_name in reports:
+    data = read_csv(report_name)
+
+    if not data:
+        print("No data parsed! {}".format(report_name))
+        continue
+
+    # report date extraction
     try:
-        month, day, year = report_name.split('.')[0].split('-')
+        month, day, year = report_name.split('/')[-1].split('.')[0].split('-')
         report_date = "{}-{}-{}".format(year, month, day)
     except:
         print("Cannot parse the report date {}.".format(report_name))
@@ -47,6 +60,5 @@ for report_name in reports:
     }
 
     r = requests.post(url=API_ENDPOINT, json=body)
-    print(report_name)
     print(r.json())
 
