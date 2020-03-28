@@ -15,6 +15,9 @@ export default {
     data: function() {
         return {
             options: {
+                theme: {
+                    palette: 'palette2'
+                },
                 chart: {
                     type: 'pie'
                 },
@@ -23,7 +26,6 @@ export default {
                     width: 0
                 },
                 legend: {
-                    show: false,
                     position: 'right'
                 },
                 dataLabels: null
@@ -37,7 +39,7 @@ export default {
             this.options.labels = newVal;
             this.options.dataLabels = {
                 formatter: function(val, opt) {
-                    let v = opt.w.globals.labels[opt.seriesIndex] + ":  " + val.toFixed(1) + '%';
+                    let v = val.toFixed(1) + '%';
                     return v;
                 },
                 style: {

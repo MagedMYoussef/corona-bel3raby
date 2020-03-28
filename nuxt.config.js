@@ -3,6 +3,9 @@ export default {
   srcDir: 'src/main/webapp',
   buildDir: 'build',
   mode: 'spa',
+  router: {
+    base: '/dashboard/'
+  },
   /*
   ** Headers of the page
   */

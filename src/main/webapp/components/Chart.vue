@@ -108,15 +108,12 @@ export default {
           bar: {
           }
         },
-        sfill: {
+        fill: {
           type: 'gradient',
           gradient: {
-            shadeIntensity: 1,
-            inverseColors: false,
-            opacityFrom: 0.5,
-            opacityTo: 0,
-            stops: [0, 90, 100]
-          },
+            opacityFrom: 0.6,
+            opacityTo: 0.8,
+          }
         },
         grid: {
           show: true,
@@ -202,6 +199,7 @@ export default {
 <style>
 .apexcharts-text {
   fill: #cacaca;
+  font-family: 'Cairo', sans-serif !important;
 }
 .apexcharts-legend-text {
   color: #cacaca !important;
@@ -214,5 +212,9 @@ export default {
 }
 .apexcharts-legend {
   bottom: 0 !important;
+  direction: ltr;
+}
+.apexcharts-canvas {
+  direction: rtl;
 }
 </style>

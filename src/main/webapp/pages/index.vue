@@ -28,7 +28,7 @@
 
         <div class="card">
           <div class="card-title">
-            معدل الوفيات
+            معدل الوفيات - {{ arabicMapping[area] }}
           </div>
           <div class="card-content">
             <chart class="chart" :series="chartsData[area].total_deaths"></chart>
@@ -36,7 +36,7 @@
         </div>
         <div class="card">
           <div class="card-title">
-            معدل الحالات
+            معدل الحالات - {{ arabicMapping[area] }}
           </div>
           <div class="card-content">
             <chart class="chart" :series="chartsData[area].total_confirmed"></chart>
@@ -52,7 +52,7 @@
 
           <div class="card">
             <div class="card-title">
-              أكثر الدول إصابة
+              أكثر الدول إصابة - {{ arabicMapping[area] }}
             </div>
             <div class="card-content">
               <pie-chart class="chart" :series="topCountries.total_confirmed.series" :labels="topCountries.total_confirmed.labels"></pie-chart>
@@ -61,7 +61,7 @@
 
           <div class="card">
             <div class="card-title">
-              أكثر الدول وفيات
+              أكثر الدول وفيات - {{ arabicMapping[area] }}
             </div>
             <div class="card-content">
               <pie-chart class="chart" :series="topCountries.total_deaths.series" :labels="topCountries.total_deaths.labels"></pie-chart>
@@ -70,7 +70,7 @@
 
           <div class="card">
             <div class="card-title">
-              الحالات الجديدة
+              الحالات الجديدة - {{ arabicMapping[area] }}
             </div>
             <div class="card-content">
               <chart class="chart" :series="chartsData[area].new_confirmed"></chart>
@@ -79,7 +79,7 @@
 
           <div class="card">
             <div class="card-title">
-              الوفيات الجديدة
+              الوفيات الجديدة - {{ arabicMapping[area] }}
             </div>
             <div class="card-content">
               <chart class="chart" :series="chartsData[area].new_deaths"></chart>
@@ -90,7 +90,7 @@
 
       <div class="card table">
         <div class="card-title">
-          احصائيات الدول
+          احصائيات الدول - {{ arabicMapping[area] }}
         </div>
         <div class="card-content">
           <Grid ref="grid" :data="countriesData"></Grid>
@@ -234,6 +234,12 @@ export default {
         africa: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
         arab: { total_confirmed: null, total_deaths: null, total_recovered: null, total_active: null, new_confirmed: null, new_deaths: null, new_recovered: null },
       },
+      arabicMapping: {
+        worldwide: 'العالم',
+        arab: 'الدول العربية',
+        africa: 'أفريقيا',
+        egypt: 'مصر',
+      },
       countriesData: null,
       latestReport: null,
       topCountries: { total_confirmed: { series: null, labels: null }, total_deaths: { series: null, labels: null } }
@@ -269,7 +275,7 @@ export default {
           });
 
           let color = "#007eff";
-          let type = "line";
+          let type = "area";
 
           if (category.includes("deaths")) {
             color = "#db4437";
