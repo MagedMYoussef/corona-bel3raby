@@ -520,4 +520,46 @@ a {
   color: #fff;
 }
 
+
+// responsive
+@media only screen and (max-width: 1400px) {
+  .apexcharts-legend {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    width: 100vw;
+  }
+
+  .header {
+    width: 100vw;
+  }
+
+  .country-filter a {
+    padding: 0.5rem;
+    border-radius: 10px;
+  }
+
+}
+
+@media only screen and (max-width: 800px) {
+  .row {
+    display: block;
+  }
+
+  .links {
+    display: none;
+  }
+
+  .apexcharts-legend {
+    display: block !important;
+  }
+}
+
 </style>

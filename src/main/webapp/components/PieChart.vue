@@ -21,21 +21,38 @@ export default {
                 labels: null,
                 stroke: {
                     width: 0
-                }
+                },
+                legend: {
+                    show: false,
+                    position: 'right'
+                },
+                dataLabels: null
             },
             labels: null
         }
     },
     props: ["series", "labels"],
-    mounted() {
-        console.log('piechart', this.series)
-    },
     watch: {
-        series: function(newVal, oldVal) {
-            console.log('watchhhhh', newVal)
-        },
         labels: function(newVal, oldVal) {
             this.options.labels = newVal;
+            this.options.dataLabels = {
+                formatter: function(val, opt) {
+                    let v = opt.w.globals.labels[opt.seriesIndex] + ":  " + val.toFixed(1) + '%';
+                    return v;
+                },
+                style: {
+                    fontSize: '12px',
+                    fontFamily: 'Cairo, sans-serif',
+                },
+                dropShadow: {
+                    enabled: true,
+                    top: 1,
+                    left: 1,
+                    blur: 1,
+                    color: '#000',
+                    opacity: 0.8
+                }
+            };
             this.options = {...this.options}
         }
     }
