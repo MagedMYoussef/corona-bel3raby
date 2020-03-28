@@ -114,7 +114,7 @@ export default {
     var allColIds = this.columnApi.getAllColumns()
         .map(column => column.colId);
 
-    this.columnApi.autoSizeColumns(allColIds);
+    this.columnApi.autopzSizeColumns(allColIds);
     this.gridApi.sizeColumnsToFit();
   },
 };

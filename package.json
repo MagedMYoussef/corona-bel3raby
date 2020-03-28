@@ -18,7 +18,6 @@
     "ag-grid-community": "^23.0.1",
     "ag-grid-vue": "^23.0.0",
     "apexcharts": "^3.17.0",
-    "chart.js": "^2.9.3",
     "nuxt": "^2.0.0",
     "vue-apexcharts": "^1.5.2",
     "vue-chartjs": "^3.5.0",

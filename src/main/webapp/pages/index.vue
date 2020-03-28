@@ -1,8 +1,6 @@
 <template>
   <div class="container">
 
-    <!-- <NewsBar :news="newsbarData"></NewsBar> -->
-
     <div class="header">
       <div class="logo">
         <a href="http://bel3raby.net" target="_blank">
@@ -196,11 +194,9 @@ import axios from "axios";
 
 import Chart from "~/components/Chart.vue";
 import Grid from "~/components/Grid.vue";
-import NewsBar from "~/components/NewsBar.vue";
 
 export default {
   components: {
-    NewsBar,
     Chart,
     Grid
   },
@@ -217,7 +213,6 @@ export default {
       },
       countriesData: null,
       latestReport: null,
-      newsbarData: null,
     };
   },
   mounted() {
@@ -232,14 +227,6 @@ export default {
       axios.get("/api/reports/").then(res => {
         this.latestReport = res.data.filter(e => e.country_arabic);
         this.countriesData = this.latestReport;
-
-        this.newsbarData = [];
-        res.data
-          .sort((a, b) => b.new_confirmed - a.new_confirmed)
-          .slice(0, 50)
-          .forEach(e => {
-            this.newsbarData.push(`${e.emoji} ${e.country_arabic}  ${e.new_confirmed} <span class="arrow-up"></span> `);
-          });
       });
 
       axios.get("/api/trends/").then(res => {
@@ -480,4 +467,10 @@ h1 {
     font-size: 2rem;
   }
 }
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
 </style>
