@@ -85,7 +85,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي الاصابات <br />
-            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide.toLocaleString() }}</span>
+            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide.toLocaleString('ar-EG') }}</span>
           </h1>
           <table>
             <tr>
@@ -94,9 +94,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_confirmed.egypt.toLocaleString() }}</td>
-              <td>{{ stats.total_confirmed.africa.toLocaleString() }}</td>
-              <td>{{ stats.total_confirmed.arab.toLocaleString() }}</td>
+              <td>{{ stats.total_confirmed.egypt.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_confirmed.africa.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_confirmed.arab.toLocaleString('ar-EG') }}</td>
             </tr>
           </table>
         </div>
@@ -106,7 +106,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي المتعافين <br />
-            <span style="color: #42d885;">{{ stats.total_recovered.worldwide.toLocaleString() }}</span>
+            <span style="color: #42d885;">{{ stats.total_recovered.worldwide.toLocaleString('ar-EG') }}</span>
           </h1>
           <table>
             <tr>
@@ -115,9 +115,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_recovered.egypt.toLocaleString() }}</td>
-              <td>{{ stats.total_recovered.africa.toLocaleString() }}</td>
-              <td>{{ stats.total_recovered.arab.toLocaleString() }}</td>
+              <td>{{ stats.total_recovered.egypt.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_recovered.africa.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_recovered.arab.toLocaleString('ar-EG') }}</td>
             </tr>
           </table>
         </div>
@@ -127,7 +127,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي الوفيات <br />
-            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString() }}</span>
+            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString('ar-EG') }}</span>
           </h1>
           <table>
             <tr>
@@ -136,9 +136,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_deaths.egypt.toLocaleString() }}</td>
-              <td>{{ stats.total_deaths.africa.toLocaleString() }}</td>
-              <td>{{ stats.total_deaths.arab.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.egypt.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_deaths.africa.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_deaths.arab.toLocaleString('ar-EG') }}</td>
             </tr>
           </table>
         </div>
@@ -148,7 +148,7 @@
         <div class="card-2-content">
           <h1>
             الاصابات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
+            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide.toLocaleString('ar-EG') }}</span>
           </h1>
           <table>
             <tr>
@@ -157,9 +157,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.new_confirmed.egypt.toLocaleString() }}</td>
-              <td>{{ stats.new_confirmed.africa.toLocaleString() }}</td>
-              <td>{{ stats.new_confirmed.arab.toLocaleString() }}</td>
+              <td>{{ stats.new_confirmed.egypt.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.new_confirmed.africa.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.new_confirmed.arab.toLocaleString('ar-EG') }}</td>
             </tr>
           </table>
         </div>
@@ -169,7 +169,7 @@
         <div class="card-2-content">
           <h1>
             الوفيات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide.toLocaleString() }}</span>
+            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide.toLocaleString('ar-EG') }}</span>
           </h1>
           <table>
             <tr>
@@ -178,9 +178,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.new_deaths.egypt.toLocaleString() }}</td>
-              <td>{{ stats.new_deaths.africa.toLocaleString() }}</td>
-              <td>{{ stats.new_deaths.arab.toLocaleString() }}</td>
+              <td>{{ stats.new_deaths.egypt.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.new_deaths.africa.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.new_deaths.arab.toLocaleString('ar-EG') }}</td>
             </tr>
           </table>
         </div>

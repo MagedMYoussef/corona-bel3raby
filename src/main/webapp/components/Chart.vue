@@ -42,7 +42,47 @@ export default {
               // we need to clear the range as we only need it on the iniital load.
               ctx.w.config.xaxis.range = undefined
             }
-          }
+          },
+          defaultLocale: 'ar',
+          locales: [
+            {
+              name: 'en',
+              options: {
+                months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                toolbar: {
+                  download: 'Download SVG',
+                  selection: 'Selection',
+                  selectionZoom: 'Selection Zoom',
+                  zoomIn: 'Zoom In',
+                  zoomOut: 'Zoom Out',
+                  pan: 'Panning',
+                  reset: 'Reset Zoom',
+                }
+              }
+            },
+            {
+              name: 'ar',
+              options: {
+                months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                shortMonths: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                days: ['الأحد', 'الأثنين', 'الثلثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+                shortDays: ['الأحد', 'الأثنين', 'الثلثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+                toolbar: {
+                  download: 'Download SVG',
+                  selection: 'Selection',
+                  selectionZoom: 'Selection Zoom',
+                  zoomIn: 'Zoom In',
+                  zoomOut: 'Zoom Out',
+                  pan: 'Panning',
+                  reset: 'Reset Zoom',
+                }
+              }
+            }
+          ]
+
         },
         xaxis: {
           type: 'datetime',
@@ -65,6 +105,8 @@ export default {
           size: 0,
         },
         plotOptions: {
+          bar: {
+          }
         },
         sfill: {
           type: 'gradient',
@@ -109,7 +151,7 @@ export default {
         tooltip: {
             y: {
               formatter: function(val) {
-                return val.toLocaleString();
+                return val.toLocaleString('ar-EG');
               },
               title: {
                   formatter: (seriesName) => seriesName,
@@ -127,6 +169,7 @@ export default {
   watch: {
     series: function(newVal, oldVal) {
       if (this.series) {
+        console.log('series', this.series);
         this.series.forEach(e => {
           if (e.type === 'bar') {
             this.options.stroke.width.push(0);
@@ -137,6 +180,18 @@ export default {
           if (e.key.includes('death')) {
             this.options.colors = ['#da4437', '#fdab3c'];
           }
+
+          if (e.xaxis && e.xaxis == "category") {
+            this.options.plotOptions.bar = {
+              horizontal: true,
+            };
+
+            this.options.xaxis = {
+              type: 'category'
+            };
+
+          }
+
         });
       }
     }
@@ -151,4 +206,8 @@ export default {
 .apexcharts-legend-text {
   color: #cacaca !important;
 }
+.apexcharts-tooltip-text {
+  font-family: 'Cairo', sans-serif !important;
+}
+
 </style>

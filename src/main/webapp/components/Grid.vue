@@ -24,34 +24,34 @@ function defaultCellRenderer(params) {
   value = parseFloat(value);
 
   if (!value) {
-    return `<span style="font-size: 0.95rem;">${params.value}</span>`;
+    return `<span style="font-size: 0.95rem; font-family: 'Cairo', sans-serif;">${params.value.toLocaleString('ar-EG')}</span>`;
   }
 
+  let percent = '';
   if (isFloat(value)) {
-    value = value.toFixed(1);
+    percent = '%';
   }
-
-  return `<span style="font-size: 0.95rem;">${value.toLocaleString()}</span>`;
+  return `<span style="font-size: 0.95rem; font-family: 'Cairo', sans-serif;">${value.toLocaleString('ar-EG', {maximumFractionDigits: 1}) + percent}</span>`;
 }
 
 function newCasesCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #ffeec3; color: #000; padding: 1px 10px; font-size: 0.95rem; width: 5rem; display: inline-block">${params.value.toLocaleString()}+</span>`;
+  return `<span style="background: #ffeec3; color: #000; padding: 1px 10px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 5rem; display: inline-block">+${params.value.toLocaleString('ar-EG')}</span>`;
 }
 
 function newDeathsCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; font-size: 0.95rem; width: 5rem; display: inline-block">${params.value.toLocaleString()}+</span>`;
+  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 5rem; display: inline-block">+${params.value.toLocaleString('ar-EG')}</span>`;
 }
 
 function countryCellRenderer(params) {
 
     if (params.data.emoji) {
-        return `<span style="font-size: 0.95rem">${params.data.emoji} ${params.value}</span>`;
+        return `<span style="font-size: 0.95rem; font-family: 'El Messiri', sans-serif;">${params.data.emoji} ${params.value}</span>`;
     }
 
     return defaultCellRenderer(params);
@@ -114,8 +114,11 @@ export default {
     var allColIds = this.columnApi.getAllColumns()
         .map(column => column.colId);
 
-    this.columnApi.autopzSizeColumns(allColIds);
+    // this.columnApi.autoSizeColumns(allColIds);
     this.gridApi.sizeColumnsToFit();
+
+    // sort by total_confirmed
+    this.gridApi.setSortModel([{ colId: 'total_confirmed', sort: 'desc'}]);
   },
 };
 
