@@ -24,34 +24,34 @@ function defaultCellRenderer(params) {
   value = parseFloat(value);
 
   if (!value) {
-    return `<span style="font-size: 0.85rem;">${params.value}</span>`;
+    return `<span style="font-size: 0.95rem;">${params.value}</span>`;
   }
 
   if (isFloat(value)) {
     value = value.toFixed(1);
   }
 
-  return `<span style="font-size: 0.85rem;">${value.toLocaleString()}</span>`;
+  return `<span style="font-size: 0.95rem;">${value.toLocaleString()}</span>`;
 }
 
 function newCasesCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #ffc023; color: #000; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value.toLocaleString()}+</span>`;
+  return `<span style="background: #ffc023; color: #000; padding: 1px 10px; font-size: 0.95rem; width: 5rem; display: inline-block">${params.value.toLocaleString()}+</span>`;
 }
 
 function newDeathsCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; border-radius: 5px; font-size: 0.85rem">${params.value.toLocaleString()}+</span>`;
+  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; font-size: 0.95rem; width: 5rem; display: inline-block">${params.value.toLocaleString()}+</span>`;
 }
 
 function countryCellRenderer(params) {
 
     if (params.data.emoji) {
-        return `<span style="font-size: 0.85rem">${params.data.emoji} ${params.value}</span>`;
+        return `<span style="font-size: 0.95rem">${params.data.emoji} ${params.value}</span>`;
     }
 
     return defaultCellRenderer(params);
@@ -115,6 +115,7 @@ export default {
         .map(column => column.colId);
 
     this.columnApi.autoSizeColumns(allColIds);
+    this.gridApi.sizeColumnsToFit();
   },
 };
 

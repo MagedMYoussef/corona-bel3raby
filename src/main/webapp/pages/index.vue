@@ -6,9 +6,8 @@
     <div class="header">
       <div class="logo">
         <a href="http://bel3raby.net" target="_blank">
-          <img src="bel3raby-icon.png" alt="logo-bel3raby" />
+          <img src="logo.png" alt="logo-bel3raby" />
         </a>
-        كورونا بالعربي
       </div>
 
       <div class="country-filter">
@@ -34,29 +33,27 @@
             معدل الوفيات
           </div>
           <div class="card-content">
-            <chart class="chart" :chart-data="chartsData[area].total_deaths" :options="options"></chart>
+            <chart class="chart" :series="chartsData[area].total_deaths"></chart>
           </div>
         </div>
         <div class="card">
           <div class="card-title">
-            معدل الحالات
+            معدل الاصابات
           </div>
           <div class="card-content">
-            <chart class="chart" :chart-data="chartsData[area].total_confirmed" :options="options"></chart>
+            <chart class="chart" :series="chartsData[area].total_confirmed"></chart>
           </div>
         </div>
 
       </div>
 
       <div class="row">
-
-        <div>
-          <div class="card">
+        <div class="card">
             <div class="card-title">
-              الحالات الجديدة
+              الاصابات الجديدة
             </div>
             <div class="card-content">
-              <chart class="chart" :chart-data="chartsData[area].new_confirmed" :options="options"></chart>
+              <chart class="chart" :series="chartsData[area].new_confirmed"></chart>
             </div>
           </div>
 
@@ -65,10 +62,11 @@
               الوفيات الجديدة
             </div>
             <div class="card-content">
-              <chart class="chart" :chart-data="chartsData[area].new_deaths" :options="options"></chart>
+              <chart class="chart" :series="chartsData[area].new_deaths"></chart>
             </div>
           </div>
-        </div>
+      </div>
+      <div class="row">
 
         <div class="card table">
           <div class="card-title">
@@ -87,7 +85,7 @@
       <div class="card-2">
         <div class="card-2-content">
           <h1>
-            اجمالي الحالات <br />
+            اجمالي الاصابات <br />
             <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
@@ -150,7 +148,7 @@
       <div class="card-2">
         <div class="card-2-content">
           <h1>
-            الحالات الجديدة <br />
+            الاصابات الجديدة <br />
             <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
@@ -219,41 +217,6 @@ export default {
       countriesData: null,
       latestReport: null,
       newsbarData: null,
-      datacollection: null,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        tooltips: {
-          mode: "label",
-          intersect: false
-        },
-        scales: {
-          xAxes: [
-            {
-              display: true,
-              gridLines: {
-                display: true,
-                color: "#58585860"
-              },
-              type: 'time',
-              time: {
-                  displayFormats: {
-                      quarter: 'MMM YYYY'
-                  }
-              }
-            }
-          ],
-          yAxes: [
-            {
-              display: true,
-              gridLines: {
-                display: true,
-                color: "#58585860"
-              }
-            }
-          ]
-        }
-      }
     };
   },
   mounted() {
@@ -262,15 +225,13 @@ export default {
   methods: {
     getData() {
       axios.get("/api/stats/").then(res => {
-        console.log("statssss", res);
         this.stats = res.data;
       });
 
       axios.get("/api/reports/").then(res => {
-        this.latestReport = res.data;
+        this.latestReport = res.data.filter(e => e.country_arabic);
         this.countriesData = this.latestReport;
 
-        // TODO: Replace it with new_confirmed
         this.newsbarData = [];
         res.data
           .sort((a, b) => b.new_confirmed - a.new_confirmed)
@@ -281,7 +242,6 @@ export default {
       });
 
       axios.get("/api/trends/").then(res => {
-        console.log("trends", res);
         this.trends = res.data;
         this.fillCharts(this.trends)
       });
@@ -310,20 +270,12 @@ export default {
             type = "bar";
           }
 
-          this.chartsData[area][category] = {
-            datasets: [
-                {
-                  label: area + ' ' + category,
-                  borderColor: color,
-                  fill: false,
-                  pointBorderColor: color,
-                  pointBackgroundColor: color,
-                  data: points,
-                  type: type,
-                  backgroundColor: color
-                }
-              ]
-          }
+          this.chartsData[area][category] = [{
+            name: area + ' ' + category,
+            data: points,
+            color: color,
+            type: type
+          }];
 
         });
 
@@ -331,8 +283,8 @@ export default {
 
       // merge recovered with confirmed (total & new)
       Object.keys(this.chartsData).forEach(area => {
-        this.chartsData[area]['total_confirmed']['datasets'].push(...this.chartsData[area]['total_recovered']['datasets']);
-        this.chartsData[area]['new_confirmed']['datasets'].push(...this.chartsData[area]['new_recovered']['datasets']);
+        this.chartsData[area]['total_confirmed'].push(...this.chartsData[area]['total_recovered']);
+        this.chartsData[area]['new_confirmed'].push(...this.chartsData[area]['new_recovered']);
       });
 
     },
@@ -372,7 +324,6 @@ export default {
   display: flex;
   text-align: center;
   background: #202124;
-  color: #fff;
   position: absolute;
   direction: rtl;
   overflow-x: hidden;
@@ -388,6 +339,7 @@ export default {
   padding: 1rem;
   font-size: 1rem;
   background: #202124;
+  color: #fff;
   z-index: 999999;
 }
 
@@ -398,7 +350,7 @@ export default {
 }
 
 .logo img {
-  width: 3rem;
+  width: 8rem;
   display: inline-block;
 }
 
@@ -462,14 +414,13 @@ export default {
   position: relative;
   top: -10px;
   background: #202124;
+  color: #fff;
   display: inline-block;
   padding: 0 1rem;
   right: 1rem;
 }
 
 .chart {
-  position: relative;
-  max-height: 13.5rem;
   margin: 10px;
 }
 

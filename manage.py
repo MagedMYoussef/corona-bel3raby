@@ -10,6 +10,12 @@ from flask import make_response
 from src.main.api import create_app, db
 from src.main.api.model import User
 
+# make sure DATABASE_URL is set
+db_location = os.getenv("DATABASE_URL", None)
+if not db_location:
+    print("Please set DATABASE_URL to the correct database location.")
+    exit(1)
+
 app = create_app(os.getenv("STARTER_ENV") or "dev")
 app.app_context().push()
 
