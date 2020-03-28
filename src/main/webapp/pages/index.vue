@@ -38,7 +38,7 @@
         </div>
         <div class="card">
           <div class="card-title">
-            معدل الاصابات
+            معدل الحالات
           </div>
           <div class="card-content">
             <chart class="chart" :series="chartsData[area].total_confirmed"></chart>
@@ -48,15 +48,6 @@
       </div>
 
       <div class="row">
-        <div class="card">
-            <div class="card-title">
-              الاصابات الجديدة
-            </div>
-            <div class="card-content">
-              <chart class="chart" :series="chartsData[area].new_confirmed"></chart>
-            </div>
-          </div>
-
           <div class="card">
             <div class="card-title">
               الوفيات الجديدة
@@ -65,6 +56,16 @@
               <chart class="chart" :series="chartsData[area].new_deaths"></chart>
             </div>
           </div>
+
+          <div class="card">
+            <div class="card-title">
+              الحالات الجديدة
+            </div>
+            <div class="card-content">
+              <chart class="chart" :series="chartsData[area].new_confirmed"></chart>
+            </div>
+          </div>
+
       </div>
       <div class="row">
 
@@ -270,8 +271,17 @@ export default {
             type = "bar";
           }
 
+
+          let seriesName = 'الاصابات';
+          if (category.includes('deaths')) {
+            seriesName = 'الوفيات';
+          } else if (category.includes('recovered')) {
+            seriesName = 'المتعافين';
+          }
+
           this.chartsData[area][category] = [{
-            name: area + ' ' + category,
+            name: seriesName,
+            key: area + ' ' + category,
             data: points,
             color: color,
             type: type
@@ -290,11 +300,7 @@ export default {
     },
     switchArea(area) {
       this.area = area;
-
       this.countriesData = this.latestReport.filter(e => area == "worldwide" || (area == "egypt" && e.country == "Egypt") || (area == "arab" && e.arab) || (area == "africa" && e.continent == "Africa"));
-
-      console.log('switch', this.$refs.grid, this.countriesData);
-
     },
   }
 };
@@ -345,7 +351,7 @@ export default {
 
 .logo {
   font-family: "Cairo", sans-serif;
-  color: #ffc023;
+  color: #fdab3c;
   font-size: 1.5rem;
 }
 
@@ -360,8 +366,8 @@ export default {
 }
 
 .links a:hover {
-  color: #ffc023;
-  border-bottom: 2px solid #ffc023;
+  color: #fdab3c;
+  border-bottom: 2px solid #fdab3c;
 }
 
 .sidebar {
@@ -384,7 +390,7 @@ export default {
 }
 
 .country-filter a {
-  color: #ffc023;
+  color: #fdab3c;
   padding: 0.7rem 1.5rem;
   border-radius: 18px;
   font-size: 1rem;
@@ -392,19 +398,19 @@ export default {
 }
 
 .country-filter a.active {
-  background: #ffc023;
+  background: #fdab3c;
   color: #202124;
   font-weight: 700;
 }
 
 .country-filter a:hover {
-  background: #ffc023;
+  background: #fdab3c;
   color: #202124;
   font-weight: 700;
 }
 
 .card {
-  margin: 1em;
+  margin: 10px;
   border: 1px solid #909090;
   border-radius: 10px;
   text-align: right;
@@ -421,7 +427,7 @@ export default {
 }
 
 .chart {
-  margin: 10px;
+  margin: 0 5px;
 }
 
 .row {
@@ -458,7 +464,7 @@ table {
   margin: 1rem auto;
 
   th {
-    color: #ffc023;
+    color: #fdab3c;
     padding: 0.5rem;
   }
   td {

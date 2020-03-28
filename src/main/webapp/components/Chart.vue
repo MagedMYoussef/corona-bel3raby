@@ -14,17 +14,21 @@ var max = new Date().getTime(); // Current timestamp
 
 var min = new Date(
     new Date().getFullYear(),
-    new Date().getMonth() - 2,
+    new Date().getMonth() - 1,
     new Date().getDate()
 );
 
 var range = max - min;
 
+function kFormatter(num) {
+    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num).toFixed(1);
+}
+
 export default {
     data: function() {
     return {
       options: {
-        colors: ['#2E93fA', '#66DA26', '#546E7A', '#E91E63', '#FF9800'],
+        colors: ['#1673ff', '#74fd2e', '#546E7A', '#E91E63', '#FF9800'],
         chart: {
           width: "100%",
           height: "100%",
@@ -44,6 +48,16 @@ export default {
           type: 'datetime',
           range: range
         },
+        yaxis: {
+          labels: {
+            formatter: function(val) {
+              return kFormatter(val);
+            },
+          }
+        },
+        stroke: {
+          width: []
+        },
         dataLabels: {
           enabled: false
         },
@@ -51,9 +65,6 @@ export default {
           size: 0,
         },
         plotOptions: {
-          bar: {
-            distributed: true,
-          }
         },
         sfill: {
           type: 'gradient',
@@ -94,16 +105,50 @@ export default {
               bottom: 0,
               left: 0
           },
-      }
+        },
+        tooltip: {
+            y: {
+              formatter: function(val) {
+                return val.toLocaleString();
+              },
+              title: {
+                  formatter: (seriesName) => seriesName,
+              },
+          },
+        }
 
       },
     }
   },
   props: ["series"],
   mounted() {
+
+  },
+  watch: {
+    series: function(newVal, oldVal) {
+      if (this.series) {
+        this.series.forEach(e => {
+          if (e.type === 'bar') {
+            this.options.stroke.width.push(0);
+          } else {
+            this.options.stroke.width.push(5);
+          }
+
+          if (e.key.includes('death')) {
+            this.options.colors = ['#da4437', '#fdab3c'];
+          }
+        });
+      }
+    }
   }
 };
 </script>
 
 <style>
+.apexcharts-text {
+  fill: #cacaca;
+}
+.apexcharts-legend-text {
+  color: #cacaca !important;
+}
 </style>

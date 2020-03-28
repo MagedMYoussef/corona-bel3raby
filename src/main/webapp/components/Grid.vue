@@ -38,7 +38,7 @@ function newCasesCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #ffc023; color: #000; padding: 1px 10px; font-size: 0.95rem; width: 5rem; display: inline-block">${params.value.toLocaleString()}+</span>`;
+  return `<span style="background: #ffeec3; color: #000; padding: 1px 10px; font-size: 0.95rem; width: 5rem; display: inline-block">${params.value.toLocaleString()}+</span>`;
 }
 
 function newDeathsCellRenderer(params) {
