@@ -20,12 +20,20 @@ def index(path=None):
     return make_response(open(index_file).read())
 
 
+def staticfiles(file=None):
+    file_path = os.path.abspath("dist/_nuxt/{}".format(file))
+    if not os.path.exists(file_path):
+        return "Failed to render staticfile {}.".format(file_path)
+    return make_response(open(file_path).read())
+
+
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(configs[config_name])
 
     app.add_url_rule('/', 'index', index)
     app.add_url_rule('/<path:path>', 'index', index)
+    app.add_url_rule('/_nuxt/<file>', 'staticfiles', staticfiles)
 
     api = Api(doc='/doc')
     api.add_resource(UserList, '/api/users/')
