@@ -1,6 +1,6 @@
 <template>
 <div>
-  <ag-grid-vue style="height: 30rem; margin: 1rem;"
+  <ag-grid-vue style="height: 70rem; margin: 1rem;"
         class="ag-theme-balham-dark"
         :columnDefs="columnDefs"
         :rowData="data"
@@ -24,28 +24,28 @@ function defaultCellRenderer(params) {
   value = parseFloat(value);
 
   if (!value) {
-    return `<span style="font-size: 0.95rem; font-family: 'Cairo', sans-serif;">${params.value.toLocaleString('ar-EG')}</span>`;
+    return `<span style="font-size: 0.95rem; font-family: 'Cairo', sans-serif;">${params.value.toLocaleString()}</span>`;
   }
 
   let percent = '';
   if (isFloat(value)) {
     percent = '%';
   }
-  return `<span style="font-size: 0.95rem; font-family: 'Cairo', sans-serif;">${value.toLocaleString('ar-EG', {maximumFractionDigits: 1}) + percent}</span>`;
+  return `<span style="font-size: 0.95rem; font-family: 'Cairo', sans-serif;">${value.toLocaleString(undefined, {maximumFractionDigits: 1}) + percent}</span>`;
 }
 
 function newCasesCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #ffeec3; color: #000; padding: 1px 10px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 5rem; display: inline-block">+${params.value.toLocaleString('ar-EG')}</span>`;
+  return `<span style="background: #ffeec3; color: #000; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 4rem; display: inline-block">+${params.value.toLocaleString()}</span>`;
 }
 
 function newDeathsCellRenderer(params) {
   if (params.value == 0) {
     return params.value;
   }
-  return `<span style="background: #db4437; color: #fff; padding: 1px 10px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 5rem; display: inline-block">+${params.value.toLocaleString('ar-EG')}</span>`;
+  return `<span style="background: #db4437; color: #fff; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 4rem; display: inline-block">+${params.value.toLocaleString()}</span>`;
 }
 
 function countryCellRenderer(params) {
@@ -89,6 +89,8 @@ export default {
     this.gridOptions = {
       enableRtl: true,
       floatingFilter: true,
+      pagination: true,
+      paginationAutoPageSize: true
     };
 
     this.defaultColDef = { resizable: true, sortable: true, filter: 'agNumberColumnFilter' };
@@ -114,8 +116,8 @@ export default {
     var allColIds = this.columnApi.getAllColumns()
         .map(column => column.colId);
 
-    // this.columnApi.autoSizeColumns(allColIds);
-    this.gridApi.sizeColumnsToFit();
+    this.columnApi.autoSizeColumns(allColIds);
+    // this.gridApi.sizeColumnsToFit();
 
     // sort by total_confirmed
     this.gridApi.setSortModel([{ colId: 'total_confirmed', sort: 'desc'}]);
@@ -146,5 +148,9 @@ export default {
 
     .ag-theme-balham-dark input[type='text'] {
         border-color: #808080;
+    }
+
+    .ag-theme-balham-dark .ag-paging-panel {
+      direction: ltr;
     }
 </style>

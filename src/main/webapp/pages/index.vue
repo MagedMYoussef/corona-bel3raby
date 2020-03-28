@@ -45,13 +45,26 @@
 
       </div>
 
+
       <div class="row">
+
+        <div style="flex: 1;">
+
           <div class="card">
             <div class="card-title">
-              الوفيات الجديدة
+              أكثر الدول إصابة
             </div>
             <div class="card-content">
-              <chart class="chart" :series="chartsData[area].new_deaths"></chart>
+              <pie-chart class="chart" :series="topCountries.total_confirmed.series" :labels="topCountries.total_confirmed.labels"></pie-chart>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              أكثر الدول وفيات
+            </div>
+            <div class="card-content">
+              <pie-chart class="chart" :series="topCountries.total_deaths.series" :labels="topCountries.total_deaths.labels"></pie-chart>
             </div>
           </div>
 
@@ -64,17 +77,25 @@
             </div>
           </div>
 
-      </div>
-      <div class="row">
+          <div class="card">
+            <div class="card-title">
+              الوفيات الجديدة
+            </div>
+            <div class="card-content">
+              <chart class="chart" :series="chartsData[area].new_deaths"></chart>
+            </div>
+          </div>
 
-        <div class="card table">
-          <div class="card-title">
-            احصائيات الدول
-          </div>
-          <div class="card-content">
-            <Grid ref="grid" :data="countriesData"></Grid>
-          </div>
+      </div>
+
+      <div class="card table">
+        <div class="card-title">
+          احصائيات الدول
         </div>
+        <div class="card-content">
+          <Grid ref="grid" :data="countriesData"></Grid>
+        </div>
+      </div>
       </div>
 
     </div>
@@ -84,8 +105,8 @@
       <div class="card-2">
         <div class="card-2-content">
           <h1>
-            اجمالي الاصابات <br />
-            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide.toLocaleString('ar-EG') }}</span>
+            اجمالي الإصابات <br />
+            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -94,9 +115,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_confirmed.egypt.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.total_confirmed.africa.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.total_confirmed.arab.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_confirmed.egypt.toLocaleString() }}</td>
+              <td>{{ stats.total_confirmed.africa.toLocaleString() }}</td>
+              <td>{{ stats.total_confirmed.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -106,7 +127,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي المتعافين <br />
-            <span style="color: #42d885;">{{ stats.total_recovered.worldwide.toLocaleString('ar-EG') }}</span>
+            <span style="color: #42d885;">{{ stats.total_recovered.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -115,9 +136,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_recovered.egypt.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.total_recovered.africa.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.total_recovered.arab.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_recovered.egypt.toLocaleString() }}</td>
+              <td>{{ stats.total_recovered.africa.toLocaleString() }}</td>
+              <td>{{ stats.total_recovered.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -127,7 +148,7 @@
         <div class="card-2-content">
           <h1>
             اجمالي الوفيات <br />
-            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString('ar-EG') }}</span>
+            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -136,9 +157,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.total_deaths.egypt.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.total_deaths.africa.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.total_deaths.arab.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.total_deaths.egypt.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.africa.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -147,8 +168,8 @@
       <div class="card-2">
         <div class="card-2-content">
           <h1>
-            الاصابات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide.toLocaleString('ar-EG') }}</span>
+            الإصابات الجديدة <br />
+            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -157,9 +178,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.new_confirmed.egypt.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.new_confirmed.africa.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.new_confirmed.arab.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.new_confirmed.egypt.toLocaleString() }}</td>
+              <td>{{ stats.new_confirmed.africa.toLocaleString() }}</td>
+              <td>{{ stats.new_confirmed.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -169,7 +190,7 @@
         <div class="card-2-content">
           <h1>
             الوفيات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide.toLocaleString('ar-EG') }}</span>
+            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -178,9 +199,9 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.new_deaths.egypt.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.new_deaths.africa.toLocaleString('ar-EG') }}</td>
-              <td>{{ stats.new_deaths.arab.toLocaleString('ar-EG') }}</td>
+              <td>{{ stats.new_deaths.egypt.toLocaleString() }}</td>
+              <td>{{ stats.new_deaths.africa.toLocaleString() }}</td>
+              <td>{{ stats.new_deaths.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
@@ -193,11 +214,13 @@
 import axios from "axios";
 
 import Chart from "~/components/Chart.vue";
+import PieChart from "~/components/PieChart.vue";
 import Grid from "~/components/Grid.vue";
 
 export default {
   components: {
     Chart,
+    PieChart,
     Grid
   },
   data() {
@@ -213,6 +236,7 @@ export default {
       },
       countriesData: null,
       latestReport: null,
+      topCountries: { total_confirmed: { series: null, labels: null }, total_deaths: { series: null, labels: null } }
     };
   },
   mounted() {
@@ -227,6 +251,7 @@ export default {
       axios.get("/api/reports/").then(res => {
         this.latestReport = res.data.filter(e => e.country_arabic);
         this.countriesData = this.latestReport;
+        this.fillTopCountries(this.countriesData);
       });
 
       axios.get("/api/trends/").then(res => {
@@ -259,7 +284,7 @@ export default {
           }
 
 
-          let seriesName = 'الاصابات';
+          let seriesName = 'الإصابات';
           if (category.includes('deaths')) {
             seriesName = 'الوفيات';
           } else if (category.includes('recovered')) {
@@ -285,9 +310,29 @@ export default {
       });
 
     },
+    fillTopCountries(data) {
+
+      ['total_confirmed', 'total_deaths'].forEach(e => {
+
+        this.topCountries[e].series = [];
+        this.topCountries[e].labels = [];
+
+        data
+          .sort((a, b) => b[e] - a[e])
+          .slice(0, 10)
+          .forEach(k => {
+            this.topCountries[e].labels.push(k.country_arabic);
+            this.topCountries[e].series.push(k[e]);
+          });
+
+      });
+
+      console.log('filllll', this.topCountries)
+    },
     switchArea(area) {
       this.area = area;
       this.countriesData = this.latestReport.filter(e => area == "worldwide" || (area == "egypt" && e.country == "Egypt") || (area == "arab" && e.arab) || (area == "africa" && e.continent == "Africa"));
+      this.fillTopCountries(this.countriesData);
     },
   }
 };
@@ -303,6 +348,7 @@ export default {
 
 ::-webkit-scrollbar {
   width: 6px;
+  height: 10px;
   background-color: #202124;
 }
 
@@ -311,7 +357,7 @@ export default {
 }
 
 .container {
-  font-family: "El Messiri", sans-serif;
+  font-family: "Cairo", sans-serif;
   min-height: 100vh;
   min-width: 100vw;
   display: flex;
@@ -404,6 +450,7 @@ export default {
 }
 
 .card-title {
+  font-family: "El Messiri", sans-serif;
   position: relative;
   top: -10px;
   background: #202124;

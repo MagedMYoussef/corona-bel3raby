@@ -1,6 +1,6 @@
 <template>
   <div v-if="series">
-    <apexchart height="200px" :options="options" :series="series"></apexchart>
+    <apexchart height="250px" :options="options" :series="series"></apexchart>
   </div>
 </template>
 
@@ -151,7 +151,7 @@ export default {
         tooltip: {
             y: {
               formatter: function(val) {
-                return val.toLocaleString('ar-EG');
+                return val.toLocaleString();
               },
               title: {
                   formatter: (seriesName) => seriesName,
@@ -209,5 +209,10 @@ export default {
 .apexcharts-tooltip-text {
   font-family: 'Cairo', sans-serif !important;
 }
-
+.apexcharts-legend-text {
+  font-family: 'Cairo', sans-serif !important;
+}
+.apexcharts-legend {
+  bottom: 0 !important;
+}
 </style>
