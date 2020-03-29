@@ -5,14 +5,24 @@
         :columnDefs="columnDefs"
         :rowData="data"
         :gridOptions="gridOptions"
+        :modules="modules"
         :defaultColDef="defaultColDef">
     </ag-grid-vue>
 </div>
 </template>
 
-<script>
 
-import { AgGridVue } from 'ag-grid-vue';
+<script>
+import Vue from 'vue';
+
+import { ModuleRegistry } from '@ag-grid-community/core';     // @ag-grid-community/core will always be implicitly available
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+
+ModuleRegistry.registerModules([
+    ClientSideRowModelModule,
+]);
+
+import { AgGridVue } from '@ag-grid-community/vue';
 
 function isFloat(n){
   return Number(n) === n && n % 1 !== 0;
@@ -78,6 +88,7 @@ export default {
       gridApi: null,
       columnApi: null,
       defaultColDef: null,
+      modules: [ClientSideRowModelModule]
     }
   },
   components: {
@@ -127,8 +138,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "../../../../node_modules/ag-grid-community/dist/styles/ag-grid.css";
-  @import "../../../../node_modules/ag-grid-community/dist/styles/ag-theme-balham-dark.css";
 
     .ag-theme-balham-dark .ag-root-wrapper {
         background-color: unset;

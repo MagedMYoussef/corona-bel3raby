@@ -7,11 +7,10 @@
 <script>
 import Vue from 'vue';
 
-import VueApexCharts from 'vue-apexcharts';
 Vue.component('apexchart', VueApexCharts);
 
-
 export default {
+    components: VueApexCharts,
     data: function() {
         return {
             options: {

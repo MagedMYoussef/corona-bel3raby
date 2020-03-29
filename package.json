@@ -15,11 +15,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "ag-grid-community": "^23.0.1",
-    "ag-grid-vue": "^23.0.0",
-    "apexcharts": "^3.17.0",
     "nuxt": "^2.0.0",
-    "vue-apexcharts": "^1.5.2",
     "vue-chartjs": "^3.5.0",
     "vue-marquee-text-component": "^1.1.1",
     "vue-property-decorator": "^8.4.1"
@@ -29,6 +25,8 @@
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/tailwindcss": "^1.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
+    "@ag-grid-community/client-side-row-model": "^23.0.0",
+    "@ag-grid-community/vue": "^23.0.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
     "eslint": "^6.1.0",

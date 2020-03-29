@@ -4,10 +4,10 @@
   </div>
 </template>
 
+
 <script>
 import Vue from 'vue';
 
-import VueApexCharts from 'vue-apexcharts';
 Vue.component('apexchart', VueApexCharts);
 
 var max = new Date().getTime(); // Current timestamp
@@ -25,6 +25,7 @@ function kFormatter(num) {
 }
 
 export default {
+    components: VueApexCharts,
     data: function() {
     return {
       options: {
@@ -203,6 +204,7 @@ export default {
 }
 .apexcharts-legend-text {
   color: #cacaca !important;
+  direction: rtl;
 }
 .apexcharts-tooltip-text {
   font-family: 'Cairo', sans-serif !important;
@@ -213,8 +215,5 @@ export default {
 .apexcharts-legend {
   bottom: 0 !important;
   direction: ltr;
-}
-.apexcharts-canvas {
-  direction: rtl;
 }
 </style>
