@@ -9,6 +9,7 @@ from .conf.config import configs
 from src.main.api.controller.UserController import UserList, User
 from src.main.api.controller.DailyReportController import DailyReport, Trends, Stats
 
+from flask_gzip import Gzip
 
 flask_bcrypt = Bcrypt()
 
@@ -30,6 +31,7 @@ def staticfiles(file=None):
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(configs[config_name])
+    gzip = Gzip(app)
 
     app.add_url_rule('/', 'index', index)
     app.add_url_rule('/<path:path>', 'index', index)
