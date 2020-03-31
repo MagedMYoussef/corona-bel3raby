@@ -1,7 +1,7 @@
 {
-  "name": "python-vue-starter",
+  "name": "corona-bel3raby",
   "version": "1.0.0",
-  "description": "A modern starter kit using Python & Vue JS.",
+  "description": "Corona Bel3raby",
   "author": "MagedMYoussef",
   "private": true,
   "scripts": {
@@ -15,7 +15,9 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "nuxt": "^2.12.1",
+    "nuxt": "^2.10.0",
+    "vue": "^2.6.11",
+    "vue-server-renderer": "^2.6.11",
     "vue-chartjs": "^3.5.0",
     "vue-marquee-text-component": "^1.1.1",
     "vue-property-decorator": "^8.4.1"
