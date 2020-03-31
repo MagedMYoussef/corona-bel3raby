@@ -568,4 +568,10 @@ a {
   }
 }
 
+@media only screen and (max-width: 500px) {
+  .apexcharts-legend {
+    display: none !important;
+  }
+}
+
 </style>
