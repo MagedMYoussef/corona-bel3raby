@@ -7,7 +7,7 @@ from .util.Database import db
 from .conf.config import configs
 
 from src.main.api.controller.UserController import UserList, User
-from src.main.api.controller.DailyReportController import DailyReport, Trends, Stats
+from src.main.api.controller.DailyReportController import DailyReport, Trends, Stats, Summary
 
 from flask_gzip import Gzip
 
@@ -45,6 +45,7 @@ def create_app(config_name):
     api.add_resource(DailyReport, '/api/reports/')
     api.add_resource(Stats, '/api/stats/')
     api.add_resource(Trends, '/api/trends/')
+    api.add_resource(Summary, '/api/summary/')
 
     db.init_app(app)
     api.init_app(app)

@@ -228,3 +228,24 @@ def get_latest_date():
         return
 
     return latest.report_date
+
+def get_summary():
+    # first get the country with the number of cases crossing 100
+    countries_crossing_100 = DailyReport.query.filter(DailyReport.total_confirmed >= 100).all()
+    unique_countries_crossing_100 = [country.country for country in countries_crossing_100]
+    unique_countries_crossing_100 = list(set(unique_countries_crossing_100))
+
+    if not unique_countries_crossing_100:
+        return {}
+
+    # this is the result key
+    res = dict()
+
+    for country in unique_countries_crossing_100:
+        stats_for_country = (DailyReport.query.order_by(DailyReport.report_date.asc())
+        .filter(DailyReport.total_confirmed >= 100, DailyReport.country == country).all())
+        stats_for_country = [(country.total_confirmed, str(country.report_date)) for country in stats_for_country]
+        print (stats_for_country)
+        res[country] = stats_for_country
+
+    return res
