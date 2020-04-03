@@ -244,8 +244,7 @@ def get_summary():
     for country in unique_countries_crossing_100:
         stats_for_country = (DailyReport.query.order_by(DailyReport.report_date.asc())
         .filter(DailyReport.total_confirmed >= 100, DailyReport.country == country).all())
-        stats_for_country = [(country.total_confirmed, str(country.report_date)) for country in stats_for_country]
-        print (stats_for_country)
+        stats_for_country = [(country.total_confirmed, count+1) for count, country in enumerate(stats_for_country)]
         res[country] = stats_for_country
 
     return res
