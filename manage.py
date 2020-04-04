@@ -8,7 +8,6 @@ from flask_script import Manager
 from flask import make_response
 
 from src.main.api import create_app, db
-from src.main.api.model import User
 
 # make sure DATABASE_URL is set
 db_location = os.getenv("DATABASE_URL", None)

@@ -6,7 +6,6 @@ from flask_restplus import Api
 from .util.Database import db
 from .conf.config import configs
 
-from src.main.api.controller.UserController import UserList, User
 from src.main.api.controller.DailyReportController import DailyReport, Trends, Stats, Summary
 
 from flask_gzip import Gzip
@@ -38,8 +37,6 @@ def create_app(config_name):
     app.add_url_rule('/_nuxt/<file>', 'staticfiles', staticfiles)
 
     api = Api(doc='/doc')
-    api.add_resource(UserList, '/api/users/')
-    api.add_resource(User, '/api/users/<email>/')
 
     api.add_resource(DailyReport, '/api/reports/<date>/')
     api.add_resource(DailyReport, '/api/reports/')
