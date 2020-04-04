@@ -27,6 +27,7 @@ export default {
       { src: 'https://cdn.jsdelivr.net/npm/vue-apexcharts' },
     ]
   },
+
   /*
   ** Customize the progress-bar color
   */
@@ -55,7 +56,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/google-analytics',
   ],
   /*
   ** Axios module configuration
@@ -69,7 +71,15 @@ export default {
     '~/middleware/logger'
   ],
 
-
+  /*
+  ** Google analytics module configuration
+  */
+ googleAnalytics: {
+    id: 'UA-86800492-5',
+    debug: {
+      sendHitTask: process.env.NODE_ENV !== 'development'
+    }
+  },
   // Proxy configuration
   proxy: {
     '/api': 'http://localhost:5000'
