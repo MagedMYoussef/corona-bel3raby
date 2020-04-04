@@ -46,16 +46,16 @@ function defaultCellRenderer(params) {
 
 function newCasesCellRenderer(params) {
   if (params.value == 0) {
-    return params.value;
+    return;
   }
-  return `<span style="background: #ffeec3; color: #000; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 4rem; display: inline-block">+${params.value.toLocaleString()}</span>`;
+  return `<span style="background: #ffeec3; color: #000; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 6rem; text-align: center; display: inline-block">+${params.value.toLocaleString()}</span>`;
 }
 
 function newDeathsCellRenderer(params) {
   if (params.value == 0) {
-    return params.value;
+    return;
   }
-  return `<span style="background: #db4437; color: #fff; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 4rem; display: inline-block">+${params.value.toLocaleString()}</span>`;
+  return `<span style="background: #db4437; color: #fff; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 6rem; text-align: center; display: inline-block">+${params.value.toLocaleString()}</span>`;
 }
 
 function countryCellRenderer(params) {
@@ -111,12 +111,12 @@ export default {
       },
       { headerName: 'الإصابات', field: 'total_confirmed', cellRenderer: defaultCellRenderer },
       { headerName: 'الإصابات الجديدة', field: 'new_confirmed', cellRenderer: newCasesCellRenderer },
+      { headerName: 'الوفيات الجديدة', field: 'new_deaths', cellRenderer: newDeathsCellRenderer },
       { headerName: 'معدل الزيادة', field: 'increase_rate', cellRenderer: rateCellRenderer },
       { headerName: 'الوفيات', field: 'total_deaths', cellRenderer: defaultCellRenderer },
-      { headerName: 'الوفيات الجديدة', field: 'new_deaths', cellRenderer: newDeathsCellRenderer },
       { headerName: 'معدل الوفاة', field: 'death_rate', cellRenderer: rateCellRenderer },
       { headerName: 'المتعافين', field: 'total_recovered', cellRenderer: defaultCellRenderer },
-      { headerName: 'الحالات النشطة', field: 'total_active', cellRenderer: defaultCellRenderer },
+      { headerName: 'الحالات النشطة', field: 'total_active', cellRenderer: defaultCellRenderer }
     ];
 
   },
