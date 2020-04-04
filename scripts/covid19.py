@@ -30,7 +30,11 @@ def read_csv(file):
 API_ENDPOINT = 'http://localhost:5000/api/reports/'
 
 # daily covid-19 reports location
-DATA_LOCATION = '/Users/mamagdy/Code/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports/'
+DATA_LOCATION = os.getenv("DATABASE_URL", None)
+if not DATA_LOCATION:
+    print("Please set DATA_LOCATION to the correct CSV files location.")
+    exit(1)
+
 
 # parse all files in this directory
 reports = list(filter(os.path.isfile, glob.glob(DATA_LOCATION + "*")))
