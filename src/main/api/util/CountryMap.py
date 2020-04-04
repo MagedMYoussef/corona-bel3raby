@@ -362,6 +362,12 @@ CountryMap = {
     "continent": "Africa",
     "arab": False
   },
+  "Congo": {
+    "country": "Congo",
+    "country_arabic": "الكونغو",
+    "continent": "Africa",
+    "arab": False
+  },
   "Cook Islands": {
     "country": "Cook Islands",
     "country_arabic": "جزر كوك",
@@ -850,6 +856,12 @@ CountryMap = {
     "emoji": "🇮🇹"
   },
   "Cote d'Ivoire": {
+    "country": "Cote d'Ivoire",
+    "country_arabic": "ساحل العاج",
+    "continent": "Africa",
+    "arab": False
+  },
+  "Ivory Coast": {
     "country": "Cote d'Ivoire",
     "country_arabic": "ساحل العاج",
     "continent": "Africa",
@@ -1538,6 +1550,13 @@ CountryMap = {
     "arab": False,
     "emoji": "🇰🇷"
   },
+  "S. Korea": {
+    "country": "South Korea",
+    "country_arabic": "كوريا الجنوبية",
+    "continent": "Asia",
+    "arab": False,
+    "emoji": "🇰🇷"
+  },
   "Korea, South": {
     "country": "South Korea",
     "country_arabic": "كوريا الجنوبية",
@@ -1711,7 +1730,7 @@ CountryMap = {
   },
   "Turkey": {
     "country": "Turkey",
-    "country_arabic": "ديك رومي",
+    "country_arabic": "تركيا",
     "continent": "Asia",
     "arab": False,
     "emoji": "🇹🇷"
@@ -1757,6 +1776,13 @@ CountryMap = {
     "arab": True,
     "emoji": "🇦🇪"
   },
+  "UAE": {
+    "country": "United Arab Emirates",
+    "country_arabic": "الإمارات العربية المتحدة",
+    "continent": "Asia",
+    "arab": True,
+    "emoji": "🇦🇪"
+  },
   "UK": {
     "country": "United Kingdom",
     "country_arabic": "المملكة المتحدة",
@@ -1778,6 +1804,13 @@ CountryMap = {
     "emoji": "🇺🇸"
   },
   "US": {
+    "country": "United States",
+    "country_arabic": "أمريكا",
+    "continent": "North America",
+    "arab": False,
+    "emoji": "🇺🇸"
+  },
+  "USA": {
     "country": "United States",
     "country_arabic": "أمريكا",
     "continent": "North America",

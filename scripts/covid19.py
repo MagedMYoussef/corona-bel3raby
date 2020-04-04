@@ -1,8 +1,7 @@
-#! /usr/local/bin/python3
+#! /usr/bin/env python3
 
 import csv
 import requests
-import json
 import glob
 import os
 
@@ -36,8 +35,6 @@ DATA_LOCATION = '/Users/mamagdy/Code/COVID-19/csse_covid_19_data/csse_covid_19_d
 # parse all files in this directory
 reports = list(filter(os.path.isfile, glob.glob(DATA_LOCATION + "*")))
 reports.sort(key=lambda x: os.path.getmtime(x))
-
-print(reports)
 
 for report_name in reports:
     data = read_csv(report_name)

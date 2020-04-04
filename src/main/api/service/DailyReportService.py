@@ -1,5 +1,7 @@
 import datetime
 
+from datetime import timedelta
+
 from src.main.api.model.DailyReport import DailyReport
 from src.main.api.util.Database import batch_save, db, commit, batch_merge
 from src.main.api.util.CountryMap import CountryMap
@@ -32,20 +34,36 @@ def add_report(data):
         return "Incorrect report_date format, should be YYYY-MM-DD", 400
 
     # get the latest saved report
-    latest_report = get_latest_report()
+    # latest_report = get_latest_report()
+    latest_report = get_previous_reports(report_date)
 
     reports = data['country_report']
+    ignored = []
 
     # group by country
     country_reports = {}
     for report in reports:
-        if report["country"] not in country_reports:
-            country_reports[report["country"]] = {
-                "country": report['country'],
+
+        country = get_country_info(report["country"])
+
+        if "world" in report["country"].lower() or "total" in report["country"].lower():
+            continue
+
+        if not country:
+            print("Cannot find the info for country {}".format(report["country"]))
+            ignored.append(report["country"])
+            country = {"country": "Others"}
+
+        if country["country"] not in country_reports:
+            country_reports[country["country"]] = {
+                "country": country["country"],
                 "report_date": report_date,
                 "total_confirmed": 0,
                 "total_deaths": 0,
-                "total_recovered": 0
+                "total_recovered": 0,
+                "new_confirmed": 0,
+                "new_deaths": 0,
+                "new_recovered": 0,
             }
 
         try:
@@ -63,9 +81,27 @@ def add_report(data):
         except:
             total_recovered = 0
 
-        country_reports[report["country"]]["total_confirmed"] += total_confirmed
-        country_reports[report["country"]]["total_deaths"] += total_deaths
-        country_reports[report["country"]]["total_recovered"] += total_recovered
+        try:
+            new_confirmed = int(report['New Confirmed'])
+        except:
+            new_confirmed = 0
+
+        try:
+            new_deaths = int(report['New Deaths'])
+        except:
+            new_deaths = 0
+
+        try:
+            new_recovered = int(report['New Recovered'])
+        except:
+            new_recovered = 0
+
+        country_reports[country["country"]]["total_confirmed"] += total_confirmed
+        country_reports[country["country"]]["total_deaths"] += total_deaths
+        country_reports[country["country"]]["total_recovered"] += total_recovered
+        country_reports[country["country"]]["new_confirmed"] += new_confirmed
+        country_reports[country["country"]]["new_deaths"] += new_deaths
+        country_reports[country["country"]]["new_recovered"] += new_recovered
 
     parsed_reports = []
     country_reports = country_reports.values()
@@ -92,10 +128,15 @@ def add_report(data):
                 latest_country_report["total_deaths"] = temp[0].total_deaths
                 latest_country_report["total_recovered"] = temp[0].total_recovered
 
-        # calculate the new cases
-        country["new_confirmed"] = int(country["total_confirmed"]) - int(latest_country_report["total_confirmed"])
-        country["new_deaths"] = int(country["total_deaths"]) - int(latest_country_report["total_deaths"])
-        country["new_recovered"] = int(country["total_recovered"]) - int(latest_country_report["total_recovered"])
+        # get the new cases or calculate them in case they are missing
+        if "new_confirmed" not in country:
+            country["new_confirmed"] = int(country["total_confirmed"]) - int(latest_country_report["total_confirmed"])
+
+        if "new_deaths" not in country:
+            country["new_deaths"] = int(country["total_deaths"]) - int(latest_country_report["total_deaths"])
+
+        if "new_recovered" not in country:
+            country["new_recovered"] = int(country["total_recovered"]) - int(latest_country_report["total_recovered"])
 
         # calculate the death rate & increase rate
         if "new_confirmed" in country and "total_confirmed" in country and country["total_confirmed"] != 0:
@@ -151,8 +192,8 @@ def add_report(data):
         return "An error happened while updating the report {}.".format(e), 500
 
     if len(updated_data):
-        return "Reports have been updated successfully!", 200
-    return "Reports have been added successfully!", 201
+        return "Reports have been updated successfully! Ignored: {}".format(ignored), 200
+    return "Reports have been added successfully! Ignored: {}".format(ignored), 201
 
 
 def get_trends():
@@ -234,6 +275,13 @@ def get_stats():
 
 def get_country_info(country):
     return CountryMap.get(country, {})
+
+
+def get_previous_reports(report_date):
+
+    previous_date = datetime.datetime.strftime(report_date - timedelta(1), '%Y-%m-%d')
+    previous_reports = DailyReport.query.filter_by(report_date=previous_date).all()
+    return previous_reports
 
 
 def get_latest_report():
