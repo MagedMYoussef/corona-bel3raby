@@ -338,7 +338,6 @@ export default {
 
       });
 
-      console.log('filllll', this.topCountries)
     },
     switchArea(area) {
       this.area = area;
