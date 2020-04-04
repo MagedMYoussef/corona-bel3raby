@@ -65,6 +65,11 @@ export default {
     proxy: true
   },
 
+  serverMiddleware: [
+    '~/middleware/logger'
+  ],
+
+
   // Proxy configuration
   proxy: {
     '/api': 'http://localhost:5000'
