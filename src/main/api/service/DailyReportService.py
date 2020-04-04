@@ -8,6 +8,15 @@ from src.main.api.util.CountryMap import CountryMap
 
 KEYS = ["total_confirmed", "total_deaths", "total_recovered", "total_active", "new_confirmed", "new_deaths", "new_recovered"]
 
+FIELDS = {
+    "Confirmed": "total_confirmed",
+    "Deaths": "total_deaths",
+    "Recovered": "total_recovered",
+    "New Confirmed": "new_confirmed",
+    "New Deaths": "new_deaths",
+    "New Recovered": "new_recovered",
+}
+
 
 def get_report(report_date):
     if (not report_date):
@@ -34,15 +43,18 @@ def add_report(data):
         return "Incorrect report_date format, should be YYYY-MM-DD", 400
 
     # get the latest saved report
-    # latest_report = get_latest_report()
     latest_report = get_previous_reports(report_date)
 
     reports = data['country_report']
     ignored = []
+    calc_new_stats = True
 
     # group by country
     country_reports = {}
     for report in reports:
+
+        if "New Confirmed" in report:
+            calc_new_stats = False
 
         country = get_country_info(report["country"])
 
@@ -58,58 +70,21 @@ def add_report(data):
             country_reports[country["country"]] = {
                 "country": country["country"],
                 "report_date": report_date,
-                "total_confirmed": 0,
-                "total_deaths": 0,
-                "total_recovered": 0,
-                "new_confirmed": 0,
-                "new_deaths": 0,
-                "new_recovered": 0,
             }
 
-        try:
-            total_confirmed = int(report['Confirmed'])
-        except:
-            total_confirmed = 0
+        for field in FIELDS.keys():
+            if FIELDS[field] not in country_reports[country["country"]]:
+                country_reports[country["country"]][FIELDS[field]] = 0
 
-        try:
-            total_deaths = int(report['Deaths'])
-        except:
-            total_deaths = 0
-
-        try:
-            total_recovered = int(report['Recovered'])
-        except:
-            total_recovered = 0
-
-        try:
-            new_confirmed = int(report['New Confirmed'])
-        except:
-            new_confirmed = 0
-
-        try:
-            new_deaths = int(report['New Deaths'])
-        except:
-            new_deaths = 0
-
-        try:
-            new_recovered = int(report['New Recovered'])
-        except:
-            new_recovered = 0
-
-        country_reports[country["country"]]["total_confirmed"] += total_confirmed
-        country_reports[country["country"]]["total_deaths"] += total_deaths
-        country_reports[country["country"]]["total_recovered"] += total_recovered
-        country_reports[country["country"]]["new_confirmed"] += new_confirmed
-        country_reports[country["country"]]["new_deaths"] += new_deaths
-        country_reports[country["country"]]["new_recovered"] += new_recovered
+            try:
+                value = int(report[field])
+            except:
+                value = 0
+            country_reports[country["country"]][FIELDS[field]] += value
 
     parsed_reports = []
     country_reports = country_reports.values()
     for country in country_reports:
-
-        country['total_confirmed'] = int(country['total_confirmed'])
-        country['total_deaths'] = int(country['total_deaths'])
-        country['total_recovered'] = int(country['total_recovered'])
 
         # calculate the active cases
         country["total_active"] = int(country["total_confirmed"]) - int(country["total_recovered"]) - int(country["total_deaths"])
@@ -129,14 +104,13 @@ def add_report(data):
                 latest_country_report["total_recovered"] = temp[0].total_recovered
 
         # get the new cases or calculate them in case they are missing
-        if "new_confirmed" not in country:
-            country["new_confirmed"] = int(country["total_confirmed"]) - int(latest_country_report["total_confirmed"])
-
-        if "new_deaths" not in country:
-            country["new_deaths"] = int(country["total_deaths"]) - int(latest_country_report["total_deaths"])
-
-        if "new_recovered" not in country:
-            country["new_recovered"] = int(country["total_recovered"]) - int(latest_country_report["total_recovered"])
+        if calc_new_stats:
+            for field in FIELDS.values():
+                if "new" in field:
+                    stat = field.split("_")[1]
+                    country[field] = int(country["total_" + stat]) - int(latest_country_report["total_" + stat])
+                    if country[field] < 0:
+                        country[field] = 0
 
         # calculate the death rate & increase rate
         if "new_confirmed" in country and "total_confirmed" in country and country["total_confirmed"] != 0:
@@ -300,6 +274,7 @@ def get_latest_date():
         return
 
     return latest.report_date
+
 
 def get_summary():
     # first get the country with the number of cases crossing 100

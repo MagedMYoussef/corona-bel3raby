@@ -48,14 +48,14 @@ function newCasesCellRenderer(params) {
   if (params.value == 0) {
     return;
   }
-  return `<span style="background: #ffeec3; color: #000; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 6rem; text-align: center; display: inline-block">+${params.value.toLocaleString()}</span>`;
+  return `<span style="background: #ffeec3; color: #000; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 6rem; text-align: center; display: inline-block">${params.value.toLocaleString()}+</span>`;
 }
 
 function newDeathsCellRenderer(params) {
   if (params.value == 0) {
     return;
   }
-  return `<span style="background: #db4437; color: #fff; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 6rem; text-align: center; display: inline-block">+${params.value.toLocaleString()}</span>`;
+  return `<span style="background: #db4437; color: #fff; padding: 1px 5px; font-size: 0.95rem; font-family: 'Cairo', sans-serif; width: 6rem; text-align: center; display: inline-block">${params.value.toLocaleString()}+</span>`;
 }
 
 function countryCellRenderer(params) {

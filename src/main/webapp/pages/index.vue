@@ -218,6 +218,11 @@ import PieChart from "~/components/PieChart.vue";
 import Grid from "~/components/Grid.vue";
 
 export default {
+  head() {
+    return {
+      title: `كورونا بالعربي - متابعة حية لآخر إحصائيات فيروس كوفيد-19`
+    };
+  },
   components: {
     Chart,
     PieChart,
