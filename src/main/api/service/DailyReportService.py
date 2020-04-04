@@ -1,7 +1,7 @@
 import datetime
 
 from src.main.api.model.DailyReport import DailyReport
-from src.main.api.util.Database import batch_save, db, commit
+from src.main.api.util.Database import batch_save, db, commit, batch_merge
 from src.main.api.util.CountryMap import CountryMap
 
 KEYS = ["total_confirmed", "total_deaths", "total_recovered", "total_active", "new_confirmed", "new_deaths", "new_recovered"]
@@ -15,6 +15,11 @@ def get_report(report_date):
     return list(map(lambda report: {**report.serialize(), **CountryMap.get(report.country, {})}, reports))
 
 
+def get_reports_by_date(report_date):
+    reports = db.session.query(DailyReport).filter_by(report_date=report_date).all()
+    return reports
+
+
 def add_report(data):
 
     if not data or 'country_report' not in data or 'report_date' not in data:
@@ -25,11 +30,6 @@ def add_report(data):
         report_date = datetime.datetime.strptime(data['report_date'], '%Y-%m-%d')
     except ValueError:
         return "Incorrect report_date format, should be YYYY-MM-DD", 400
-
-    # validate if report_date doesn't exist
-    report = DailyReport.query.filter_by(report_date=data['report_date']).first()
-    if report:
-        return "A report already exist with the same report_date value.", 400
 
     # get the latest saved report
     latest_report = get_latest_report()
@@ -67,7 +67,7 @@ def add_report(data):
         country_reports[report["country"]]["total_deaths"] += total_deaths
         country_reports[report["country"]]["total_recovered"] += total_recovered
 
-    new_data = []
+    parsed_reports = []
     country_reports = country_reports.values()
     for country in country_reports:
 
@@ -122,13 +122,37 @@ def add_report(data):
             increase_rate=country['increase_rate'],
         )
 
-        new_data.append(new_country_report)
+        parsed_reports.append(new_country_report)
+
+    # check what objects already exist and what's not
+    new_data = []
+    updated_data = []
+
+    saved_reports = get_reports_by_date(data['report_date'])
+    for report in parsed_reports:
+
+        updated = None
+
+        for saved_report in saved_reports:
+            if report.country == saved_report.country:
+                updated = report
+
+        if updated:
+            updated_data.append(report)
+        else:
+            new_data.append(report)
 
     e = batch_save(db, new_data)
     if e:
         return "An error happened while adding the report {}.".format(e), 500
 
-    return "Report has been added successfully!", 201
+    e = batch_merge(db, updated_data)
+    if e:
+        return "An error happened while updating the report {}.".format(e), 500
+
+    if len(updated_data):
+        return "Reports have been updated successfully!", 200
+    return "Reports have been added successfully!", 201
 
 
 def get_trends():

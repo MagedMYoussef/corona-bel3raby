@@ -11,10 +11,28 @@ def save_and_commit(db, data):
     return e
 
 
+def batch_merge(db, data):
+
+    try:
+        for item in data:
+            db.session.merge(item)
+
+        e = commit(db)
+    except Exception as e:
+        return e
+
+    return e
+
+
 def batch_save(db, data):
 
-    for item in data:
-        db.session.add(item)
+    try:
+        for item in data:
+            db.session.add(item)
+
+        e = commit(db)
+    except Exception as e:
+        return e
 
     e = commit(db)
     return e
