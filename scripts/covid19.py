@@ -30,7 +30,7 @@ def read_csv(file):
 API_ENDPOINT = 'http://localhost:5000/api/reports/'
 
 # daily covid-19 reports location
-DATA_LOCATION = os.getenv("DATABASE_URL", None)
+DATA_LOCATION = os.getenv("DATA_LOCATION", None)
 if not DATA_LOCATION:
     print("Please set DATA_LOCATION to the correct CSV files location.")
     exit(1)
