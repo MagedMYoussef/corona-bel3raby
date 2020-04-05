@@ -1,27 +1,14 @@
 <template>
   <div class="container">
 
-    <div class="header">
-      <div class="logo">
-        <a href="http://bel3raby.net" target="_blank">
-          <img src="logo.png" alt="logo-bel3raby" />
-        </a>
-      </div>
-
+    <Header>
       <div class="country-filter">
         <a @click="switchArea('worldwide')" href="#" :class="area == 'worldwide' ? 'active' : ''">العالم</a>
         <a @click="switchArea('egypt')" href="#" :class="area == 'egypt' ? 'active' : ''">مصر</a>
         <a @click="switchArea('africa')" href="#" :class="area == 'africa' ? 'active' : ''">أفريقيا</a>
         <a @click="switchArea('arab')" href="#" :class="area == 'arab' ? 'active' : ''">الدول العربية</a>
       </div>
-
-      <div class="links">
-        <a href="#">أخبار</a>
-        <a href="#">شائعات</a>
-        <a href="#">مصادر</a>
-        <a href="#">أبحاث</a>
-      </div>
-    </div>
+    </Header>
 
     <div class="main">
       <div class="row">
@@ -216,6 +203,7 @@ import axios from "axios";
 import Chart from "~/components/Chart.vue";
 import PieChart from "~/components/PieChart.vue";
 import Grid from "~/components/Grid.vue";
+import Header from "~/components/Header.vue";
 
 export default {
   head() {
@@ -226,7 +214,8 @@ export default {
   components: {
     Chart,
     PieChart,
-    Grid
+    Grid,
+    Header
   },
   data() {
     return {
@@ -372,45 +361,10 @@ export default {
   min-width: 100vw;
   display: flex;
   text-align: center;
-  background: #202124;
   position: absolute;
   direction: rtl;
   overflow-x: hidden;
-}
-
-.header {
-  position: fixed;
-  top: 0;
-  width: 80vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  font-size: 1rem;
   background: #202124;
-  color: #fff;
-  z-index: 999999;
-}
-
-.logo {
-  font-family: "Cairo", sans-serif;
-  color: #fdab3c;
-  font-size: 1.5rem;
-}
-
-.logo img {
-  width: 8rem;
-  display: inline-block;
-}
-
-.links a {
-  margin: 0 1rem;
-  transition: color 0.3s;
-}
-
-.links a:hover {
-  color: #fdab3c;
-  border-bottom: 2px solid #fdab3c;
 }
 
 .sidebar {
@@ -547,10 +501,6 @@ a {
     width: 100vw;
   }
 
-  .header {
-    width: 100vw;
-  }
-
   .country-filter a {
     padding: 0.5rem;
     border-radius: 10px;
@@ -561,10 +511,6 @@ a {
 @media only screen and (max-width: 800px) {
   .row {
     display: block;
-  }
-
-  .links {
-    display: none;
   }
 
   .apexcharts-legend {
