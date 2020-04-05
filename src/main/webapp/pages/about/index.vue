@@ -1,5 +1,5 @@
 <template>
-  <div class="bg container">
+  <div class="bg">
 
     <Header>
     </Header>
@@ -55,7 +55,7 @@
         </div>
       </div>
 
- <div>
+      <div>
 
         <div class="hero-image">
           <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t1.0-9/67811253_2525875867435506_7960829231548596224_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_oc=AQn8qFS_syoN1JUTVsMB7gIVso_zV0SESynxX6DdvTJ7zz0CHFfhxkfpb_qzAcqYgSY&_nc_ht=scontent-hbe1-1.xx&oh=a9f74bd8a2c343c31d4998247402127f&oe=5EB05DF0" alt="Maged M Youssef profile picture">
@@ -108,9 +108,9 @@
 import Header from "~/components/Header.vue";
 
 export default {
-    components: {
-        Header
-    }
+  components: {
+    Header
+  }
 };
 </script>
 
@@ -125,7 +125,6 @@ export default {
   background: #ffd618; /* Gecko Browsers */
   color: #131313;
 }
-
 
 /* Animations */
 @-moz-keyframes rocket-movement {
@@ -247,6 +246,10 @@ export default {
   background: linear-gradient(5deg, #0c0c0e 0%, #22242d 100%);
   height: 100vh;
   width: 100vw;
+  font-family: "Cairo", sans-serif;
+  position: absolute;
+  direction: rtl;
+  overflow-x: hidden;
 }
 
 .btn-go-home {
@@ -293,7 +296,7 @@ export default {
 
 .object_earth {
   position: absolute;
-  top: 10%;
+  top: 20%;
   left: 8%;
   z-index: 90;
   animation: spin-earth 10s infinite linear both;
@@ -452,22 +455,35 @@ export default {
 
 .content {
   text-align: center;
+  width: 100vw;
+  overflow: hidden;
+  direction: ltr;
+  margin-top: 10rem;
 }
 
 .content > div {
   text-align: center;
   display: inline-block;
-  margin: 16rem 3rem;
+  margin: 4rem;
+  animation: fadein 1.5s;
 }
 
-
-.container {
-  font-family: "Cairo", sans-serif;
-  text-align: center;
-  position: absolute;
-  direction: rtl;
-  overflow-x: hidden;
-  background: #202124;
+@media only screen and (max-width: 1200px) {
+  .content > div {
+    margin: 4rem 0;
+  }
 }
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+    position: relative;
+    top: -100px;
+  }
+  to {
+    opacity: 1;
+    position: relative;
+    top: 0;
+  }
+}
 </style>

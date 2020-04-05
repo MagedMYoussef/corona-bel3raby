@@ -30,7 +30,7 @@ export default {
 .header {
   position: fixed;
   top: 0;
-  width: 80vw;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -38,7 +38,7 @@ export default {
   font-size: 1rem;
   background: #202124;
   color: #fff;
-  z-index: 999999;
+  z-index: 99999999;
 }
 
 .logo {

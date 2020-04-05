@@ -306,7 +306,6 @@ export default {
       // merge recovered with confirmed (total & new)
       Object.keys(this.chartsData).forEach(area => {
         this.chartsData[area]['total_confirmed'].push(...this.chartsData[area]['total_recovered']);
-        this.chartsData[area]['new_confirmed'].push(...this.chartsData[area]['new_recovered']);
       });
 
     },
@@ -368,12 +367,12 @@ export default {
 }
 
 .sidebar {
-  background: #2b2e37;
   width: 20vw;
   height: 100vh;
   z-index: 9999999;
   position: fixed;
   left: 0;
+  top: 6rem;
   overflow-y: auto;
 }
 
@@ -451,7 +450,7 @@ export default {
   margin: 1rem;
   border-radius: 10px;
   text-align: center;
-  background: #22242d;
+  background: #2b2e37;
   padding: 0.5rem 0;
 }
 
