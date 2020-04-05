@@ -372,7 +372,7 @@ export default {
   z-index: 9999999;
   position: fixed;
   left: 0;
-  top: 6rem;
+  padding-top: 6rem;
   overflow-y: auto;
 }
 
