@@ -28,8 +28,8 @@ Check out the site live at:  [![CoronaBel3raby](https://img.shields.io/badge/web
 - Mobile Screenshots
 
 <p float="left">
-  <img src="static/img4.png" width="400" />
-  <img src="static/img5.png" width="400" />
+  <img src="static/img4.png" width="400" height="600" />
+  <img src="static/img5.png" width="400" height="600" />
 </p>
 
 
