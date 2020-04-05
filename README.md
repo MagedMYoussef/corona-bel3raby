@@ -5,7 +5,8 @@
 </div>
 
 # Corona Bel3raby
-A COVID-19 dashboard focused on Egypt & Arab League analytics
+A COVID-19 dashboard focused on Egypt & Arab League analytics.
+
 Check out the site live at:  [![CoronaBel3raby](https://img.shields.io/badge/webiste-live-brightgreen.svg?style=flat-square)](http://corona.bel3raby.net/dashboard/)
 
 # How to
@@ -27,8 +28,8 @@ Check out the site live at:  [![CoronaBel3raby](https://img.shields.io/badge/web
 - Mobile Screenshots
 
 <p float="left">
-  <img src="static/img4.png" width="500" />
-  <img src="static/img5.png" width="500" />
+  <img src="static/img4.png" width="400" />
+  <img src="static/img5.png" width="400" />
 </p>
 
 
