@@ -83,8 +83,8 @@ a {
 
 @media only screen and (max-width: 800px) {
 
-  .links {
-    display: none;
+  .links a {
+    margin: 0 3px;
   }
 }
 

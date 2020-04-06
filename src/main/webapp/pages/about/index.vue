@@ -12,7 +12,7 @@
         </div>
         <div class="hero-headline">
           <p class="name">Maged Youssef</p>
-          <p class="description">👨‍💻 <span class="yellow">Software</span> Engineer @ <span class="blue">Mentor - Siemens</span><br /> ✅ Co-Founder of <span class="blue">bel3raby.net</span> 🎉 Founder of <span class="blue">scriple.io</span>
+          <p class="description">👨‍💻 <span class="yellow">Software</span> Engineer <br /> ✅ Co-Founder of <span class="blue">bel3raby.net</span>
           </p>
         </div>
         <div class="social-btns" :class="externalStyles">
@@ -37,7 +37,7 @@
         </div>
         <div class="hero-headline">
           <p class="name">Fady Dawood</p>
-          <p class="description">👨‍💻 <span class="yellow">Software</span> Engineer @ <span class="blue">Mentor - Siemens</span><br /> ✅ Co-Founder of <span class="blue">bel3raby.net</span> 🎉 Founder of <span class="blue">scriple.io</span>
+          <p class="description">👨‍💻 <span class="yellow">Software</span> Engineer <br /> ✅ Co-Founder of <span class="blue">bel3raby.net</span>
           </p>
         </div>
         <div class="social-btns" :class="externalStyles">
@@ -62,7 +62,7 @@
         </div>
         <div class="hero-headline">
           <p class="name">Fady Khalaf</p>
-          <p class="description">👨‍💻 <span class="yellow">Software</span> Engineer @ <span class="blue">Mentor - Siemens</span>
+          <p class="description">👨‍💻 <span class="yellow">Software</span> Engineer
           </p>
         </div>
         <div class="social-btns" :class="externalStyles">
@@ -384,6 +384,7 @@ export default {
   .central-body {
     margin-top: 50%;
   }
+
 }
 
 /* Social styles */
@@ -468,11 +469,19 @@ export default {
   animation: fadein 1.5s;
 }
 
+
 @media only screen and (max-width: 1200px) {
   .content > div {
-    margin: 4rem 0;
+    margin: 4rem;
   }
 }
+
+@media only screen and (max-width: 800px) {
+  .content > div {
+    display: block;
+  }
+}
+
 
 @keyframes fadein {
   from {
