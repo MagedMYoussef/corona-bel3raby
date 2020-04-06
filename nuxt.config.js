@@ -16,7 +16,7 @@ export default {
       { hid: 'description', name: 'description', content: 'كورونا بالعربي' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
       { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/ag-grid-community@23.0.0/dist/styles/ag-grid.min.css' },
       { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/ag-grid-community@23.0.0/dist/styles/ag-theme-balham-dark.min.css' }
 
