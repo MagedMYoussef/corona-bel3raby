@@ -13,7 +13,7 @@
         <router-link to="/">الرئيسية</router-link>
         <a href="http://corona.bel3raby.net/ar/vaccinecure" target="_blank">اللقاح</a>
         <a href="http://corona.bel3raby.net/ar/covid-faqs/" target="_blank">س و ج</a>
-        <a href="https://covid.bel3raby.net/blog/" target="_blank">أخبار</a>
+        <a href="http://corona.bel3raby.net/ar/blog/" target="_blank">أخبار</a>
         <router-link to="about">من نحن</router-link>
       </div>
     </div>
@@ -86,6 +86,12 @@ a {
   .links a {
     margin: 0 3px;
   }
+
+  .logo img {
+    width: 6rem;
+    display: inline-block;
+  }
+
 }
 
 

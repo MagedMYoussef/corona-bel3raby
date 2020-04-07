@@ -16,7 +16,7 @@
         <div class="card-2-content">
           <h1>
             الإصابات الجديدة <br />
-            <span style="color: #fdab3c;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
+            <span style="color: #23bbff;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -37,7 +37,7 @@
         <div class="card-2-content">
           <h1>
             الوفيات الجديدة <br />
-            <span style="color: #fdab3c;">{{ stats.new_deaths.worldwide.toLocaleString() }}</span>
+            <span style="color: #23bbff;">{{ stats.new_deaths.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -58,7 +58,7 @@
         <div class="card-2-content">
           <h1>
            الإصابات <br />
-            <span style="color: #03a9f4;">{{ stats.total_confirmed.worldwide.toLocaleString() }}</span>
+            <span style="color: #ffbd29;">{{ stats.total_confirmed.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -81,7 +81,7 @@
         <div class="card-2-content">
           <h1>
            الوفيات <br />
-            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString() }}</span>
+            <span style="color: #ff4747;">{{ stats.total_deaths.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -515,7 +515,7 @@ table {
     padding: 0.5rem;
   }
   td {
-    color: rgb(131, 131, 131);
+    color: #fff;
   }
 }
 
@@ -559,7 +559,7 @@ a {
 
   .card-2-content {
     margin: 5px;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
   }
 
   .main {
