@@ -77,6 +77,10 @@
         </div>
       </div>
     </div>
+
+    <div class="contact">
+      Contact us at info@bel3raby.net
+    </div>
     <div class="stars">
       <div class="objects">
         <img src="~assets/images/rocket.svg" alt="" class="object_rocket" width="40px">
@@ -466,6 +470,17 @@ export default {
 }
 
 
+.contact {
+  background: #3e3e52;
+  text-align: center;
+  color: #fff;
+  width: 25%;
+  margin: 2rem auto;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
 @media only screen and (max-width: 1200px) {
   .content > div {
     margin: 4rem;
@@ -479,6 +494,10 @@ export default {
 
   .hero-headline .name {
     font-size: 2rem;
+  }
+
+  .contact {
+    width: 80%;
   }
 }
 
