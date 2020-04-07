@@ -1,13 +1,14 @@
 <div align="center">
-    <a href="http://corona.bel3raby.net/dashboard/">
+    <a href="http://corona.bel3raby.net/">
         <img src="static/logo-dark.png">
     </a>
 </div>
 
 # Corona Bel3raby
-A COVID-19 dashboard focused on Egypt & Arab League analytics.
+A COVID-19 dashboard focused on Egypt, Africa & Arab League analytics.
 
-Check out the site live at:  [![CoronaBel3raby](https://img.shields.io/badge/webiste-live-brightgreen.svg?style=flat-square)](http://corona.bel3raby.net/dashboard/)
+Check out the site live
+[![CoronaBel3raby](https://img.shields.io/badge/webiste-live-brightgreen.svg?style=flat-square)](http://corona.bel3raby.net/dashboard/)
 
 # How to
 - **Worldwide** Results
@@ -28,14 +29,14 @@ Check out the site live at:  [![CoronaBel3raby](https://img.shields.io/badge/web
 - Mobile Screenshots
 
 <p float="left">
-  <img src="static/img4.png" width="400" height="600" />
-  <img src="static/img5.png" width="400" height="600" />
+  <img src="static/img7.png" width="400" height="850" />
+  <img src="static/img8.png" width="400" height="850" />
 </p>
 
-
-# Sources
-- [Worldometer](https://www.worldometers.info/coronavirus/)
-- [JHU CSSE](https://github.com/CSSEGISandData/COVID-19/)
+<p float="left">
+  <img src="static/img9.png" width="400" height="850" />
+  <img src="static/img10.png" width="400" height="850" />
+</p>
 
 
 # Development Guidelines
@@ -51,3 +52,8 @@ Check out the site live at:  [![CoronaBel3raby](https://img.shields.io/badge/web
 - Install node 10 or higher
 - `npm install` to install the dependencies
 - `npm run dev` to start nuxt development server
+
+# Data Sources
+- [Worldometer](https://www.worldometers.info/coronavirus/)
+- [JHU CSSE](https://github.com/CSSEGISandData/COVID-19/)
+
