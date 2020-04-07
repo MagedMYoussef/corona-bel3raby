@@ -19,8 +19,58 @@
 </template>
 
 <script>
-export default {
 
+const description = `كورونا بالعربي - متابعة حية لآخر إحصائيات فيروس كوفيد-19`;
+const title = `كورونا بالعربي`;
+
+
+export default {
+  head() {
+    return {
+      title: title,
+      meta: [
+        {
+          name: 'description',
+          hid: 'description',
+          content: description
+        },
+        // Open Graph
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: description
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: title
+        },
+        {
+          hid: 'og:site_name',
+          property: 'og:site_name',
+          content: 'بالعربي.نت'
+        },
+        { name: 'og:type', content: 'website' },
+        { name: 'og:url', content: 'http://bel3raby.net/' },
+        { name: 'og:image', content: 'http://corona.bel3raby.net/ar/wp-content/uploads/2020/03/Featured-image-02-1.png' },
+        { name: 'og:image:alt', content: 'بالعربي.نت' },
+
+        // Twitter Card
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:site', content: 'بالعربي.نت' },
+        {
+          name: 'twitter:title',
+          content: title
+        },
+        {
+          name: 'twitter:description',
+          content: description
+        },
+        { name: 'twitter:image', content: 'http://corona.bel3raby.net/ar/wp-content/uploads/2020/03/Featured-image-02-1.png' },
+        { name: 'twitter:image:alt', content: 'بالعربي.نت' }
+      ]
+    };
+  },
 }
 </script>
 
