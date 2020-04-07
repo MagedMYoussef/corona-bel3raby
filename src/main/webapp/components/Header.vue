@@ -11,9 +11,9 @@
 
       <div class="links">
         <router-link to="/">الرئيسية</router-link>
-        <a href="#">أخبار</a>
-        <a href="#">شائعات</a>
-        <a href="#">أبحاث</a>
+        <a href="http://corona.bel3raby.net/ar/vaccinecure" target="_blank">اللقاح</a>
+        <a href="http://corona.bel3raby.net/ar/covid-faqs/" target="_blank">س و ج</a>
+        <a href="https://covid.bel3raby.net/blog/" target="_blank">أخبار</a>
         <router-link to="about">من نحن</router-link>
       </div>
     </div>

@@ -10,7 +10,49 @@
       </div>
     </Header>
 
+
     <div class="sidebar" v-if="stats">
+      <div class="card-2">
+        <div class="card-2-content">
+          <h1>
+            الإصابات الجديدة <br />
+            <span style="color: #fdab3c;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
+          </h1>
+          <table>
+            <tr>
+              <th>مصر</th>
+              <th>أفريقيا</th>
+              <th>العرب</th>
+            </tr>
+            <tr>
+              <td>{{ stats.new_confirmed.egypt.toLocaleString() }}</td>
+              <td>{{ stats.new_confirmed.africa.toLocaleString() }}</td>
+              <td>{{ stats.new_confirmed.arab.toLocaleString() }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+       <div class="card-2">
+        <div class="card-2-content">
+          <h1>
+            الوفيات الجديدة <br />
+            <span style="color: #fdab3c;">{{ stats.new_deaths.worldwide.toLocaleString() }}</span>
+          </h1>
+          <table>
+            <tr>
+              <th>مصر</th>
+              <th>أفريقيا</th>
+              <th>العرب</th>
+            </tr>
+            <tr>
+              <td>{{ stats.new_deaths.egypt.toLocaleString() }}</td>
+              <td>{{ stats.new_deaths.africa.toLocaleString() }}</td>
+              <td>{{ stats.new_deaths.arab.toLocaleString() }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
 
       <div class="card-2">
         <div class="card-2-content">
@@ -33,11 +75,13 @@
         </div>
       </div>
 
+
+
       <div class="card-2">
         <div class="card-2-content">
           <h1>
-            الإصابات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_confirmed.worldwide.toLocaleString() }}</span>
+           الوفيات <br />
+            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString() }}</span>
           </h1>
           <table>
             <tr>
@@ -46,34 +90,14 @@
               <th>العرب</th>
             </tr>
             <tr>
-              <td>{{ stats.new_confirmed.egypt.toLocaleString() }}</td>
-              <td>{{ stats.new_confirmed.africa.toLocaleString() }}</td>
-              <td>{{ stats.new_confirmed.arab.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.egypt.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.africa.toLocaleString() }}</td>
+              <td>{{ stats.total_deaths.arab.toLocaleString() }}</td>
             </tr>
           </table>
         </div>
       </div>
 
-      <div class="card-2">
-        <div class="card-2-content">
-          <h1>
-            الوفيات الجديدة <br />
-            <span style="color: #ff5b93;">{{ stats.new_deaths.worldwide.toLocaleString() }}</span>
-          </h1>
-          <table>
-            <tr>
-              <th>مصر</th>
-              <th>أفريقيا</th>
-              <th>العرب</th>
-            </tr>
-            <tr>
-              <td>{{ stats.new_deaths.egypt.toLocaleString() }}</td>
-              <td>{{ stats.new_deaths.africa.toLocaleString() }}</td>
-              <td>{{ stats.new_deaths.arab.toLocaleString() }}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
 
       <div class="card-2">
         <div class="card-2-content">
@@ -96,26 +120,7 @@
         </div>
       </div>
 
-      <div class="card-2">
-        <div class="card-2-content">
-          <h1>
-           الوفيات <br />
-            <span style="color: #ff5b93;">{{ stats.total_deaths.worldwide.toLocaleString() }}</span>
-          </h1>
-          <table>
-            <tr>
-              <th>مصر</th>
-              <th>أفريقيا</th>
-              <th>العرب</th>
-            </tr>
-            <tr>
-              <td>{{ stats.total_deaths.egypt.toLocaleString() }}</td>
-              <td>{{ stats.total_deaths.africa.toLocaleString() }}</td>
-              <td>{{ stats.total_deaths.arab.toLocaleString() }}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
+
     </div>
 
     <div class="main">
@@ -494,11 +499,14 @@ a {
 
 @media only screen and (max-width: 1200px) {
   .sidebar {
-    display: flex;
     position: relative;
-    width: 100vw;
+    width: unset;
     height: unset;
     overflow: auto;
+  }
+
+  .sidebar .card-2 {
+    display: inline-block;
   }
 
   .container {

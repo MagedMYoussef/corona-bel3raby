@@ -59,11 +59,6 @@ function newDeathsCellRenderer(params) {
 }
 
 function countryCellRenderer(params) {
-
-    if (params.data.emoji) {
-        return `<span style="font-size: 0.95rem; font-family: 'El Messiri', sans-serif;">${params.data.emoji} ${params.value}</span>`;
-    }
-
     return defaultCellRenderer(params);
 }
 
@@ -107,7 +102,7 @@ export default {
     this.defaultColDef = { resizable: true, sortable: true, filter: 'agNumberColumnFilter' };
     this.columnDefs = [
       {
-        headerName: 'البلد', field: 'country_arabic', filter: 'agTextColumnFilter', cellRenderer: countryCellRenderer, minWidth: 200
+        headerName: 'البلد', field: 'country_arabic', filter: 'agTextColumnFilter', cellRenderer: countryCellRenderer, minWidth: 150
       },
       { headerName: 'الإصابات', field: 'total_confirmed', cellRenderer: defaultCellRenderer },
       { headerName: 'الإصابات الجديدة', field: 'new_confirmed', cellRenderer: newCasesCellRenderer },
