@@ -389,6 +389,7 @@ export default {
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Almarai|El+Messiri|Cairo|Tajawal&display=swap");
 
+
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px #202124;
   background-color: #202124;
@@ -589,6 +590,10 @@ a {
 
   .apexcharts-legend {
     display: block !important;
+  }
+
+  html {
+    font-size: 14px;
   }
 }
 
