@@ -8,7 +8,7 @@
       <div>
 
         <div class="hero-image">
-          <img src="http://2.gravatar.com/avatar/b60ade6a237cea8aed96af18333438ef?s=256" alt="Maged M Youssef profile picture">
+          <img src="http://2.gravatar.com/avatar/b60ade6a237cea8aed96af18333438ef?s=256">
         </div>
         <div class="hero-headline">
           <p class="name">Maged Youssef</p>
@@ -33,7 +33,7 @@
       <div>
 
         <div class="hero-image">
-          <img src="http://0.gravatar.com/avatar/0df1e7b6269c0e5f052288b9171ddda0?s=256&d=mm&r=g" alt="Maged M Youssef profile picture">
+          <img src="~assets/images/dawood.jpg">
         </div>
         <div class="hero-headline">
           <p class="name">Fady Dawood</p>
@@ -41,15 +41,15 @@
           </p>
         </div>
         <div class="social-btns" :class="externalStyles">
-          <a href="https://twitter.com/MagedMYoussef" class="btn twitter" target="_blank">
+          <a href="https://twitter.com/Fady_Dawood" class="btn twitter" target="_blank">
             <img src="~assets/images/twitter-icon.svg" class="fa fa-twitter social-icon" alt="">
           </a>
 
-          <a href="https://www.linkedin.com/in/magedmyoussef/" class="btn linkedin" target="_blank">
+          <a href="https://www.linkedin.com/in/fady-dawood/" class="btn linkedin" target="_blank">
             <img src="~assets/images/linkedin-icon.svg" class="fa fa-linkedin social-icon" alt="">
           </a>
 
-          <a href="https://www.facebook.com/magedmagdy07" class="btn facebook" target="_blank">
+          <a href="https://www.facebook.com/fady.dawood7" class="btn facebook" target="_blank">
             <img src="~assets/images/facebook-icon.svg" class="fa fa-facebook social-icon" alt="">
           </a>
         </div>
@@ -58,7 +58,7 @@
       <div>
 
         <div class="hero-image">
-          <img src="https://scontent-hbe1-1.xx.fbcdn.net/v/t1.0-9/67811253_2525875867435506_7960829231548596224_o.jpg?_nc_cat=102&_nc_sid=09cbfe&_nc_oc=AQn8qFS_syoN1JUTVsMB7gIVso_zV0SESynxX6DdvTJ7zz0CHFfhxkfpb_qzAcqYgSY&_nc_ht=scontent-hbe1-1.xx&oh=a9f74bd8a2c343c31d4998247402127f&oe=5EB05DF0" alt="Maged M Youssef profile picture">
+          <img src="~assets/images/khalaf.png">
         </div>
         <div class="hero-headline">
           <p class="name">Fady Khalaf</p>
@@ -66,15 +66,12 @@
           </p>
         </div>
         <div class="social-btns" :class="externalStyles">
-          <a href="https://twitter.com/MagedMYoussef" class="btn twitter" target="_blank">
-            <img src="~assets/images/twitter-icon.svg" class="fa fa-twitter social-icon" alt="">
-          </a>
 
-          <a href="https://www.linkedin.com/in/magedmyoussef/" class="btn linkedin" target="_blank">
+          <a href="https://www.linkedin.com/in/fady-khalaf-fahmy/" class="btn linkedin" target="_blank">
             <img src="~assets/images/linkedin-icon.svg" class="fa fa-linkedin social-icon" alt="">
           </a>
 
-          <a href="https://www.facebook.com/magedmagdy07" class="btn facebook" target="_blank">
+          <a href="https://www.facebook.com/fady.basha.7" class="btn facebook" target="_blank">
             <img src="~assets/images/facebook-icon.svg" class="fa fa-facebook social-icon" alt="">
           </a>
         </div>
@@ -231,6 +228,8 @@ export default {
   margin-bottom: 2rem;
   border-radius: 20rem;
   border: 3px solid #c7c7c7;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .spin-earth-on-hover {
