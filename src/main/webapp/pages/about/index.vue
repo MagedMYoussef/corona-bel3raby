@@ -84,10 +84,7 @@
           <img src="~assets/images/earth.svg" alt="" class="object_earth" width="100px">
           <img src="~assets/images/moon.svg" alt="" class="object_moon" width="80px">
         </div>
-        <div class="box_astronaut">
-          <img src="~assets/images/astronaut.svg" alt="" class="object_astronaut" width="140px">
 
-        </div>
       </div>
       <div class="glowing_stars">
         <div class="star"></div>
@@ -478,6 +475,10 @@ export default {
 @media only screen and (max-width: 800px) {
   .content > div {
     display: block;
+  }
+
+  .hero-headline .name {
+    font-size: 2rem;
   }
 }
 
