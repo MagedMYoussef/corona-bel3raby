@@ -43,6 +43,10 @@ for header in table.find_all("th"):
 results = []
 for row in table.find_all("tr"):
 
+    continent = row.get('data-continent')
+    if continent:
+        continue
+
     element = {}
     for i, cell in enumerate(row.find_all("td")):
         val = cell.get_text()
